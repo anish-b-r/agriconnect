@@ -21,8 +21,11 @@ import {
   Zap,
   Check
 } from 'lucide-react';
+import { Language } from '../types';
+import { getTranslation } from '../utils/translations';
 
 export interface SihDemoWalkthroughProps {
+  currentLanguage?: Language;
   onSelectStepTab: (tab: string) => void;
 }
 
@@ -39,7 +42,8 @@ interface WalkthroughStep {
   color: string;
 }
 
-export const SihDemoWalkthrough: React.FC<SihDemoWalkthroughProps> = ({ onSelectStepTab }) => {
+export const SihDemoWalkthrough: React.FC<SihDemoWalkthroughProps> = ({ currentLanguage = 'en' as Language, onSelectStepTab }) => {
+  const t = getTranslation(currentLanguage);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
   const steps: WalkthroughStep[] = [

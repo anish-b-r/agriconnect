@@ -94,13 +94,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const NAV_ITEMS_TRANSLATED: Record<NavTabType, string> = {
-    fairscore: t.priceDiscovery || 'FairScore',
-    yield: t.yieldPredictor || 'Yield AI',
-    price: t.fairBaselineTitle ? t.fairBaselineTitle.split('&')[0].trim() : 'Fair Price Engine',
-    linkages: t.marketLinkages || 'Buyer Market',
-    portfolio: t.myFarmPortfolio || 'My Lots',
-    mandi: t.mandiAnalytics || 'Market Trends',
-    weather: t.weatherAlerts || 'Weather & Alerts',
+    fairscore: t.fairScoreNav || 'FairScore',
+    yield: t.yieldAiNav || 'Yield AI',
+    price: t.fairPriceNav || 'Fair Price Engine',
+    linkages: t.buyerMarketNav || 'Buyer Market',
+    portfolio: t.myLotsNav || 'My Lots',
+    mandi: t.marketTrendsNav || 'Market Trends',
+    weather: t.weatherAlertsNav || 'Weather & Alerts',
     advisory: t.aiAdvisory || 'Kisan Advisory',
     database: t.databaseHub || 'Database Hub',
     sihpitch: t.sihPitch || 'SIH Demo Pitch',
@@ -200,7 +200,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:bg-stone-100/80 hover:text-stone-900 cursor-pointer"
               >
                 <Headphones className="w-4 h-4 text-stone-400" />
-                <span>{t.support || 'Support'}</span>
+                <span>{t.supportNav || 'Support'}</span>
               </button>
 
               <button
@@ -211,7 +211,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:bg-stone-100/80 hover:text-stone-900 cursor-pointer"
               >
                 <Settings className="w-4 h-4 text-stone-400" />
-                <span>{t.settings || 'Settings'}</span>
+                <span>{t.settingsNav || 'Settings'}</span>
               </button>
             </div>
 
@@ -226,7 +226,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               
               <div className="relative z-10 space-y-2">
                 <h4 className="text-sm font-extrabold font-display leading-tight text-stone-50 max-w-[130px]">
-                  {t.empoweringFarmers || 'Empowering Farmers, Every Day.'}
+                  {t.empoweringFarmersNav || 'Empowering Farmers, Every Day.'}
                 </h4>
                 
                 <button 

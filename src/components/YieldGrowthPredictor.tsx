@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { CropMasterData, YieldPredictionInput, YieldPredictionResult, Language } from '../types';
 import { CROP_MASTER_LIST } from '../data/cropMaster';
-import { getTranslation } from '../utils/translations';
+import { getTranslation, getLocalizedCropName } from '../utils/translations';
 
 interface YieldGrowthPredictorProps {
   currentLanguage: Language;
@@ -174,7 +174,7 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
               >
                 {CROP_MASTER_LIST.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.name} ({c.hindiName}) — Baseline Yield: {c.averageYieldPerAcreQuintals} Qtl/Acre
+                    {getLocalizedCropName(c.id, currentLanguage, c.name)} — {t.typicalYield || 'Typical Yield'}: {c.typicalYieldPerAcre} Qtl/Acre
                   </option>
                 ))}
               </select>

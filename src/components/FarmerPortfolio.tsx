@@ -35,7 +35,7 @@ import {
 } from 'lucide-react';
 import { FarmerBatchListing, CropMasterData, QualityParameters, Language, MarketLinkageContract, MongoUser } from '../types';
 import { CROP_MASTER_LIST, SAMPLE_MANDIS, SAMPLE_FINALIZED_CONTRACTS } from '../data/cropMaster';
-import { getTranslation } from '../utils/translations';
+import { getTranslation, getLocalizedCropName } from '../utils/translations';
 import { TransactionHistoryView } from './TransactionHistoryView';
 import { TransactionVoucherModal } from './TransactionVoucherModal';
 import { LotInspectionReportModal } from './LotInspectionReportModal';
@@ -241,7 +241,7 @@ export const FarmerPortfolio: React.FC<FarmerPortfolioProps> = ({
                   </span>
                 </div>
 
-                <h3 className="text-base font-extrabold text-stone-900 font-display">{lot.cropName}</h3>
+                <h3 className="text-base font-extrabold text-stone-900 font-display">{getLocalizedCropName(lot.cropId || '', currentLanguage, lot.cropName)}</h3>
                 <p className="text-xs text-stone-500 mt-0.5">{lot.variety} • {lot.village}</p>
 
                 <div className="my-4 p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1.5 font-mono">

@@ -207,6 +207,20 @@ const DASHBOARD_CROPS: CropOption[] = [
   },
 ];
 
+const getCropLocalizedName = (cropId: string, cropName: string, lang: Language) => {
+  const map: Record<string, Record<Language, string>> = {
+    wheat: { en: 'Wheat', hi: 'गेहूं', pa: 'ਕਣਕ', mr: 'गहू', te: 'గోధుమలు', ta: 'கோதுமை', kn: 'ಗೋಧಿ', gu: 'ઘઉં', bn: 'গম' },
+    paddy: { en: 'Paddy', hi: 'धान', pa: 'ਝੋਨਾ', mr: 'भात', te: 'వరి', ta: 'நெல்', kn: 'ಬತ್ತ', gu: 'ડાંગર', bn: 'ধান' },
+    tomato: { en: 'Tomato', hi: 'टमाटर', pa: 'ਟਮਾਟਰ', mr: 'टोमॅटो', te: 'టమాటో', ta: 'தக்காளி', kn: 'ಟೊಮೆಟೊ', gu: 'ટામેટા', bn: 'টমেটো' },
+    onion: { en: 'Onion', hi: 'प्याज', pa: 'ਪਿਆਜ਼', mr: 'कांदा', te: 'ఉల్లిపాయ', ta: 'வெங்காயம்', kn: 'ಈರುಳ್ಳಿ', gu: 'ડુંગળી', bn: 'পেঁয়াজ' },
+    soybean: { en: 'Soybean', hi: 'सोयाबीन', pa: 'ਸੋਇਆਬੀਨ', mr: 'सोयाबीन', te: 'సోయాబీన్', ta: 'சோயாபீன்', kn: 'ಸೋಯಾಬೀನ್', gu: 'સોયાબીન', bn: 'সয়াবিন' },
+    mustard: { en: 'Mustard', hi: 'सरसों', pa: 'ਸਰ੍ਹੋਂ', mr: 'मोहरी', te: 'ఆవాలు', ta: 'கடுகு', kn: 'ಸಾಸಿವೆ', gu: 'રાઈ', bn: 'সরষে' },
+    cotton: { en: 'Cotton', hi: 'कपास', pa: 'ਕਪਾਹ', mr: 'कापूस', te: 'పత్తి', ta: 'பருத்தி', kn: 'ಹತ್ತಿ', gu: 'કપાસ', bn: 'তুলা' },
+    groundnut: { en: 'Groundnut', hi: 'मूंगफली', pa: 'ਮੂੰਗਫਲੀ', mr: 'भुईमूग', te: 'వేరుశనగ', ta: 'நிலக்கடலை', kn: 'ಕಡಲೆಕಾಯಿ', gu: 'મગફળી', bn: 'বাদામ' },
+  };
+  return map[cropId]?.[lang] || cropName;
+};
+
 export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
   currentLanguage = 'en',
   onNavigateToListing,
@@ -242,10 +256,16 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
           <span className="text-[11px] font-extrabold text-stone-400 tracking-wider uppercase font-mono block mb-1">
             FAIRSCORE
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.1] font-display mb-2">
-            {t.rightPricesStrongerHarvests || 'Right Prices Stronger Harvests'}
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight font-display mb-2">
+            {currentLanguage === 'en' ? (
+              <>
+                Right Prices <br className="hidden sm:inline" /> Stronger Harvests
+              </>
+            ) : (
+              t.rightPricesStrongerHarvests || 'Right Prices Stronger Harvests'
+            )}
           </h1>
-          <p className="text-sm text-stone-500 max-w-xl font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm text-stone-500 max-w-xl font-normal leading-relaxed">
             {t.simpleGuideSubtitle || 'Check real mandi rates, compare with government benchmarks, and sell directly to verified buyers.'}
           </p>
         </div>
@@ -313,7 +333,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
                   >
                     <CropIcon cropId={crop.id} className="w-10 h-10 mb-1.5" />
                     <span className="text-xs font-bold font-sans text-stone-900 block leading-snug">
-                      {crop.name}
+                      {getCropLocalizedName(crop.id, crop.name, lang)}
                     </span>
                     <span className="text-[11px] font-extrabold text-stone-600 font-mono mt-0.5">
                       ₹{crop.modalPrice.toLocaleString('en-IN')}
@@ -366,7 +386,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             <div className="flex items-center gap-2 mb-2">
               <CropIcon cropId={activeCrop.id} className="w-6 h-6" />
               <span className="text-sm font-extrabold text-stone-900 font-display">
-                {activeCrop.varietyName}
+                {getCropLocalizedName(activeCrop.id, activeCrop.varietyName, lang)}
               </span>
               <span className="text-stone-300">|</span>
               <span className="text-xs text-stone-500 flex items-center gap-1 font-medium">

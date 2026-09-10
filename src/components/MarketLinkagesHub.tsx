@@ -20,12 +20,13 @@ import {
   IndianRupee,
   MapPin,
   Scale,
-  ArrowRight
+  ArrowRight,
+  Handshake
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { BuyerOrder, CropMasterData, MarketLinkageContract, Language } from '../types';
 import { CROP_MASTER_LIST, INITIAL_BUYER_ORDERS } from '../data/cropMaster';
-import { getTranslation } from '../utils/translations';
+import { getTranslation, getLocalizedCropName } from '../utils/translations';
 
 interface MarketLinkagesHubProps {
   currentLanguage: Language;
@@ -256,7 +257,7 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
               <option value="all">All Commodities</option>
               {CROP_MASTER_LIST.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {c.name}
+                  {getLocalizedCropName(c.id, currentLanguage, c.name)}
                 </option>
               ))}
             </select>
@@ -288,64 +289,90 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
 
       {/* Orders Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredOrders.map((order) => (
-          <div
-            key={order.id}
-            className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-sm hover:shadow-md hover:border-stone-300 transition-all flex flex-col justify-between space-y-4"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-700 border border-stone-200 font-mono">
-                  {order.buyerType}
-                </span>
-                {order.escrowGuaranteed && (
-                  <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1 font-mono bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                    <Lock className="w-3 h-3 text-emerald-600" /> 100% Escrow
+        {filteredOrders.map((order) => {
+          const deliveryText =
+            order.deliveryTerms ||
+            order.deliveryLocation ||
+            order.location ||
+            'Farmgate Collection / Direct Mandi Dispatch';
+
+          const qualityText =
+            order.qualityRequirements ||
+            (Array.isArray(order.requirements) ? order.requirements.join(' • ') : order.requirements) ||
+            order.gradeRequired ||
+            'Grade A Quality Assured';
+
+          const requiredQty =
+            order.requiredQuantityQuintals ||
+            order.targetQuantityQuintals ||
+            order.quantityQuintals ||
+            100;
+
+          const isEscrow =
+            order.escrowGuaranteed ??
+            order.verifiedBuyerBadge ??
+            order.verifiedBuyer ??
+            true;
+
+          return (
+            <div
+              key={order.id}
+              className="bg-white rounded-2xl p-6 border border-stone-200/80 shadow-sm hover:shadow-md hover:border-stone-300 transition-all flex flex-col justify-between space-y-4"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-stone-100 text-stone-700 border border-stone-200 font-mono">
+                    {order.buyerType}
                   </span>
-                )}
+                  {isEscrow && (
+                    <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1 font-mono bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      <Lock className="w-3 h-3 text-emerald-600 shrink-0" /> 100% Escrow
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="text-base font-extrabold text-stone-900 font-display leading-tight">{order.companyName}</h3>
+                <p className="text-xs text-stone-500 mt-0.5">{order.buyerName}</p>
+
+                <div className="my-4 p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1.5 font-mono">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-stone-500">Crop:</span>
+                    <span className="text-xs font-extrabold text-stone-900">{getLocalizedCropName(order.cropId || '', currentLanguage, order.cropName)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-stone-500">Offered Price:</span>
+                    <span className="text-sm font-black text-[#1b4332]">₹{order.offeredPricePerQtl}/Qtl</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] text-stone-500">Required Qty:</span>
+                    <span className="text-xs font-bold text-stone-900">{requiredQty} Qtl</span>
+                  </div>
+                </div>
+
+                <div className="text-xs space-y-2 font-sans">
+                  <div className="flex items-start gap-2 min-w-0" title={deliveryText}>
+                    <Truck className="w-4 h-4 text-stone-400 shrink-0 mt-0.5" />
+                    <span className="text-stone-600 font-medium leading-tight truncate">{deliveryText}</span>
+                  </div>
+                  <div className="flex items-start gap-2 min-w-0" title={qualityText}>
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <span className="text-stone-600 font-medium leading-tight truncate">{qualityText}</span>
+                  </div>
+                </div>
               </div>
 
-              <h3 className="text-base font-extrabold text-stone-900 font-display leading-tight">{order.companyName}</h3>
-              <p className="text-xs text-stone-500 mt-0.5">{order.buyerName}</p>
-
-              <div className="my-4 p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 space-y-1.5 font-mono">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-stone-500">Crop:</span>
-                  <span className="text-xs font-extrabold text-stone-900">{order.cropName}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-stone-500">Offered Price:</span>
-                  <span className="text-sm font-black text-[#1b4332]">₹{order.offeredPricePerQtl}/Qtl</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] text-stone-500">Required Qty:</span>
-                  <span className="text-xs font-bold text-stone-900">{order.requiredQuantityQuintals} Qtl</span>
-                </div>
-              </div>
-
-              <div className="text-xs text-stone-600 space-y-1">
-                <p className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-stone-400" />
-                  <span className="truncate">{order.deliveryTerms}</span>
-                </p>
-                <p className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="truncate">{order.qualityRequirements}</span>
-                </p>
+              <div className="pt-3 border-t border-stone-100 flex items-center gap-2">
+                <button
+                  onClick={() => handleStartNegotiation(order)}
+                  className="flex-1 py-3 bg-[#1b4332] hover:bg-[#143527] text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm cursor-pointer transition-all"
+                >
+                  <Handshake className="w-4 h-4 text-white shrink-0" />
+                  <span>Negotiate & Lock Deal</span>
+                </button>
               </div>
             </div>
-
-            <div className="pt-3 border-t border-stone-100 flex items-center gap-2">
-              <button
-                onClick={() => handleStartNegotiation(order)}
-                className="flex-1 py-3 bg-[#1b4332] hover:bg-[#143527] text-white font-extrabold rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-sm cursor-pointer transition-all"
-              >
-                <MessageSquare className="w-3.5 h-3.5 text-white" />
-                <span>Negotiate & Lock Deal</span>
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Broadcast Lot Modal */}

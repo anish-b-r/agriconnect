@@ -30,7 +30,7 @@ import {
 } from '../types';
 import { CROP_MASTER_LIST, SAMPLE_MANDIS, INITIAL_BUYER_ORDERS } from '../data/cropMaster';
 import { LotInspectionReportModal } from './LotInspectionReportModal';
-import { getTranslation } from '../utils/translations';
+import { getTranslation, getLocalizedCropName } from '../utils/translations';
 
 interface PriceDiscoveryEngineProps {
   currentLanguage: Language;
@@ -198,7 +198,7 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
               >
                 {CROP_MASTER_LIST.map((c) => (
                   <option key={c.id} value={c.id}>
-                    {c.name} ({c.hindiName}) — MSP: ₹{c.defaultMsp}/Qtl
+                    {getLocalizedCropName(c.id, currentLanguage, c.name)} — MSP: ₹{c.defaultMsp}/Qtl
                   </option>
                 ))}
               </select>

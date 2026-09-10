@@ -117,6 +117,18 @@ export interface TranslationDictionary {
   yieldPredictionTitle?: string;
   yieldPredictionSub?: string;
 
+  // Nav Specific Keys
+  fairScoreNav?: string;
+  yieldAiNav?: string;
+  fairPriceNav?: string;
+  buyerMarketNav?: string;
+  myLotsNav?: string;
+  marketTrendsNav?: string;
+  weatherAlertsNav?: string;
+  supportNav?: string;
+  settingsNav?: string;
+  empoweringFarmersNav?: string;
+
   // Extended UI Keys
   rightPricesStrongerHarvests?: string;
   growingBrighterTomorrow?: string;
@@ -147,6 +159,41 @@ export interface TranslationDictionary {
 
 export const APP_TRANSLATIONS: Record<Language, TranslationDictionary> = {
   en: {
+    fairScoreNav: 'FairScore',
+    yieldAiNav: 'Yield AI',
+    fairPriceNav: 'Fair Price Engine',
+    buyerMarketNav: 'Buyer Market',
+    myLotsNav: 'My Lots',
+    marketTrendsNav: 'Market Trends',
+    weatherAlertsNav: 'Weather & Alerts',
+    supportNav: 'Support',
+    settingsNav: 'Settings',
+    empoweringFarmersNav: 'Empowering Farmers, Every Day.',
+
+    rightPricesStrongerHarvests: 'Right Prices Stronger Harvests',
+    growingBrighterTomorrow: 'Growing a brighter tomorrow',
+    fairMarketsStrongerIndia: 'Fair markets for a stronger India.',
+    todaysFairRateSub: 'Live mandi rate and government benchmarks',
+    vsYesterday: 'vs. yesterday',
+    listenRateUpdate: 'Listen Rate Update',
+    playingVoiceAdvisory: 'Playing Vernacular Voice Advisory...',
+    moreSupport: 'More Support',
+    supportDesc: 'Get price advice in your language',
+    searchPlaceholder: 'Search for a crop, mandi or location...',
+    selectLanguageModalTitle: 'Select Language / भाषा चुनें',
+    selectLanguageModalSub: 'Choose your preferred Indian language for real-time translation across AgriConnect.',
+    nineLanguagesSupported: '🌐 9 Vernacular Indian Languages Supported',
+    doneBtn: 'Done / हो गया',
+    empoweringFarmers: 'Empowering Farmers, Every Day.',
+    support: 'Support',
+    settings: 'Settings',
+    databaseHub: 'Database Hub',
+    sihPitch: 'SIH Demo Pitch',
+    apmcMarketBulletin: 'APMC Market Bulletin',
+    viewBulletinPoints: 'View Bulletin Points',
+    allApmcMandiCrops: 'All APMC Mandi Crops',
+    liveNotifications: 'Live Notifications',
+
     appTitle: 'AgriConnect FairScore',
     tagline: 'Predictive Fair-Value & Direct Market-Linkage Platform for Farmers (SIH26132)',
     yieldPredictor: 'Yield & Growth AI',
@@ -234,6 +281,17 @@ export const APP_TRANSLATIONS: Record<Language, TranslationDictionary> = {
   },
 
   hi: {
+    fairScoreNav: 'फेयरस्कोर',
+    yieldAiNav: 'उपज AI',
+    fairPriceNav: 'सही भाव इंजन',
+    buyerMarketNav: 'खरीदार मंडी',
+    myLotsNav: 'माई लॉट्स',
+    marketTrendsNav: 'मंडी रुझान',
+    weatherAlertsNav: 'मौसम व अलर्ट',
+    supportNav: 'सहायता',
+    settingsNav: 'सेटिंग्स',
+    empoweringFarmersNav: 'किसानों का सशक्तिकरण, हर दिन।',
+
     appTitle: 'एग्रीकनेक्ट फेयरस्कोर',
     tagline: 'किसानों के लिए सटीक मूल्य पूर्वानुमान, 0-100 फेयरस्कोर और सीधा बाजार संपर्क (SIH26132)',
     yieldPredictor: 'उपज और लागत AI',
@@ -843,6 +901,41 @@ export const APP_TRANSLATIONS: Record<Language, TranslationDictionary> = {
   },
 
   kn: {
+    fairScoreNav: 'ಫೇರ್‌ಸ್ಕೋರ್',
+    yieldAiNav: 'ಇಳುವರಿ AI',
+    fairPriceNav: 'ನ್ಯಾಯಯುತ ಬೆಲೆ ಎಂಜಿನ್',
+    buyerMarketNav: 'ಖರೀದಿದಾರರ ಮಾರುಕಟ್ಟೆ',
+    myLotsNav: 'ನನ್ನ ಬೆಳೆ ಪಟ್ಟಿ',
+    marketTrendsNav: 'ಮಾರುಕಟ್ಟೆ ಪ್ರವೃತ್ತಿ',
+    weatherAlertsNav: 'ಹವಾಮಾನ ಎಚ್ಚರಿಕೆ',
+    supportNav: 'ಸಹಾಯ',
+    settingsNav: 'ಸೇಟಿಂಗ್ಸ್',
+    empoweringFarmersNav: 'ಪ್ರತಿ ದಿನವೂ ರೈತರ ಸಬಲೀಕರಣ.',
+
+    rightPricesStrongerHarvests: 'ಸರಿಯಾದ ಬೆಲೆ, ಸಮೃದ್ಧ ಬೆಳೆ',
+    growingBrighterTomorrow: 'ಉಜ್ವಲ ಭವಿಷ್ಯದತ್ತ ರೈತರ ಹೆಜ್ಜೆ',
+    fairMarketsStrongerIndia: 'ಪಾರದರ್ಶಕ ಮಾರುಕಟ್ಟೆ, ಸಶಕ್ತ ಭಾರತ.',
+    todaysFairRateSub: 'ನೇರ ಮಂಡಿ ಬೆಲೆ ಮತ್ತು ಸರ್ಕಾರಿ ಬೆಂಬಲ ಬೆಲೆ',
+    vsYesterday: 'ನಿನ್ನೆಗಿಂತ',
+    listenRateUpdate: 'ಧ್ವನಿಯಲ್ಲಿ ಬೆಲೆ ಕೇಳಿ',
+    playingVoiceAdvisory: 'ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಸಲಹೆ ಪ್ಲೇ ಆಗುತ್ತಿದೆ...',
+    moreSupport: 'ಹೆಚ್ಚಿನ ನೆರವು',
+    supportDesc: 'ನಿಮ್ಮದೇ ಭಾಷೆಯಲ್ಲಿ ಬೆಲೆ ಸಲಹೆ ಪಡೆಯಿರಿ',
+    searchPlaceholder: 'ಬೆಳೆ, ಮಂಡಿ ಅಥವಾ ಸ್ಥಳ ಹುಡುಕಿ...',
+    selectLanguageModalTitle: 'ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ',
+    selectLanguageModalSub: 'ನಿಮ್ಮ ಮೆಚ್ಚಿನ ಭಾರತೀಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+    nineLanguagesSupported: '🌐 9 ಭಾರತೀಯ ಭಾಷೆಗಳಲ್ಲಿ ಲಭ್ಯ',
+    doneBtn: 'ಆಯಿತು / ಮುಗಿಯಿತು',
+    empoweringFarmers: 'ಪ್ರತಿ ದಿನವೂ ರೈತರ ಸಬಲೀಕರಣ.',
+    support: 'ಸಹಾಯ',
+    settings: 'ಸೇಟಿಂಗ್ಸ್',
+    databaseHub: 'ಡೇಟಾಬೇಸ್ ಹಬ್',
+    sihPitch: 'SIH ಡೆಮೊ ಪಿಚ್',
+    apmcMarketBulletin: 'APMC ಮಂಡಿ ಬುಲೆಟಿನ್',
+    viewBulletinPoints: 'ಬುಲೆಟಿನ್ ವೀಕ್ಷಿಸಿ',
+    allApmcMandiCrops: 'ಎಲ್ಲಾ ಮಂಡಿ ಬೆಳೆಗಳು',
+    liveNotifications: 'ಲೈವ್ ಸೂಚನೆಗಳು',
+
     appTitle: 'ಅಗ್ರಿಕನೆಕ್ಟ್ ಫೇರ್‌ಸ್ಕೋರ್',
     tagline: 'ರೈತರಿಗೆ ನ್ಯಾಯಯುತ ಬೆಲೆ ಅನ್ವೇಷಣೆ, ಮುನ್ಸೂಚನೆ ಮತ್ತು ನೇರ ಮಾರುಕಟ್ಟೆ ಸಂಪರ್ಕ',
     yieldPredictor: 'ಇಳುವರಿ ಮತ್ತು ಬೆಳವಣಿಗೆ AI',
@@ -943,7 +1036,142 @@ export const getTranslation = (lang: Language): TranslationDictionary => {
       if (key in fallback && fallback[key] !== undefined && fallback[key] !== '') {
         return fallback[key];
       }
-      return String(prop);
+      return String(prop)
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/^./, (str) => str.toUpperCase())
+        .trim();
     }
   });
 };
+
+export const CROP_LOCALIZED_NAMES: Record<string, Record<Language, string>> = {
+  wheat: {
+    en: 'Wheat (Sharbati / Lokwan)',
+    hi: 'गेहूं (शरबती / लोकवान)',
+    pa: 'ਕਣਕ (ਸ਼ਰਬਤੀ / ਲੋਕਵਾਨ)',
+    mr: 'गहू (शरबती / लोकवान)',
+    te: 'గోధుమ (శరబతి / లోక్వాన్)',
+    ta: 'கோதுமை (ஷர்பதி / லோக்வான்)',
+    kn: 'ಗೋಧಿ (ಶರಬತಿ / ಲೋಕ್ವಾನ್)',
+    gu: 'ઘઉં (શરબતી / લોકવાન)',
+    bn: 'গম (শরবতী / লোকওয়ান)',
+  },
+  paddy_basmati: {
+    en: 'Basmati Paddy (Pusa 1121)',
+    hi: 'बासमती धान (पुसा 1121)',
+    pa: 'ਬਾਸਮਤੀ ਝੋਨਾ (ਪੂਸਾ 1121)',
+    mr: 'बास्मती भात / धान (पुसा 1121)',
+    te: 'బాస్మతీ వరి (పూసా 1121)',
+    ta: 'பாஸ்மதி நெல் (பூசா 1121)',
+    kn: 'ಬಾಸುಮತಿ ಬತ್ತ (ಪೂಸಾ 1121)',
+    gu: 'બાસમતી ડાંગર (પુસા 1121)',
+    bn: 'বাসমতী ধান (পুসা 1121)',
+  },
+  soybean: {
+    en: 'Soybean (Yellow)',
+    hi: 'सोयाबीन (पीला)',
+    pa: 'ਸੋਇਆਬੀਨ (ਪੀਲਾ)',
+    mr: 'सोयाबीन (पिवळा)',
+    te: 'సోయాబీన్ (పసుపు)',
+    ta: 'சோயாபீன் (மஞ்சள்)',
+    kn: 'ಸೋಯಾಬੀನ್ (ಹಳದಿ)',
+    gu: 'સોયાબીન (પીળા)',
+    bn: 'সয়াবিন (হলুদ)',
+  },
+  cotton: {
+    en: 'Cotton (Long Staple)',
+    hi: 'कपास (लंबे रेशे वाला)',
+    pa: 'ਕਪਾਹ (ਲੰਬੇ ਰੇਸ਼ੇ ਵਾਲੀ)',
+    mr: 'कापूस (लांब धागा)',
+    te: 'పత్తి (పొడవాటి దారాలు)',
+    ta: 'பருத்தி (நீண்ட நார்ப்பகுதி)',
+    kn: 'ಹತ್ತಿ (ಉದ್ದನೆ ಎಳೆ)',
+    gu: 'કપાસ (લાંબી છાપ)',
+    bn: 'তুলা (দীর্ঘ আঁশযুক্ত)',
+  },
+  mustard: {
+    en: 'Mustard / Rapeseed',
+    hi: 'सरसों / राई',
+    pa: 'ਸਰ੍ਹੋਂ / ਰਾਈ',
+    mr: 'मोहरी / राई',
+    te: 'ఆవాలు (Mustard)',
+    ta: 'கடுகு (Mustard)',
+    kn: 'ಸಾಸಿವೆ (Mustard)',
+    gu: 'રાઈ / રાઈડો',
+    bn: 'সরিષા (Mustard)',
+  },
+  tomato: {
+    en: 'Tomato (Hybrid)',
+    hi: 'टमाटर (हाइब्रिड)',
+    pa: 'ਟਮਾਟਰ (ਹਾਈਬ੍ਰਿਡ)',
+    mr: 'टोमॅटो (हायब्रिड)',
+    te: 'టమోటా (హైబ్రిడ్)',
+    ta: 'தக்காளி (ஹைப்ரிட்)',
+    kn: 'ಟೊಮೆಟೊ (ಹೈಬ್ರಿಡ್)',
+    gu: 'ટામેટા (હાઇબ્રિડ)',
+    bn: 'টমেটো (হাইব্রিড)',
+  },
+  onion: {
+    en: 'Onion (Nashik Red)',
+    hi: 'प्याज (नासिक रेड)',
+    pa: 'ਪਿਆਜ਼ (ਨਾਸਿਕ ਲਾਲ)',
+    mr: 'कांदा (नाशिक लाल)',
+    te: 'ఉల్లిపాయ (నాసిక్ ఎరుపు)',
+    ta: 'வெங்காயம் (நாசிக் சிவப்பு)',
+    kn: 'ಈರುಳ್ಳಿ (ನಾಶಿಕ್ ಕೆಂಪು)',
+    gu: 'ડુંગળી (નાસિક લાલ)',
+    bn: 'পেঁয়াজ (নাসিক লাল)',
+  },
+  maize: {
+    en: 'Maize / Corn',
+    hi: 'मक्का (Maize)',
+    pa: 'ਮੱਕੀ (Maize)',
+    mr: 'मका (Maize)',
+    te: 'మొక్కజొన్న (Maize)',
+    ta: 'சோளம் (Maize)',
+    kn: 'ಮೆಕ್ಕೆಜೋಳ (Maize)',
+    gu: 'મકાઈ (Maize)',
+    bn: 'ভুট্টা (Maize)',
+  },
+  tur_dal: {
+    en: 'Tur / Arhar Dal',
+    hi: 'तुवर / अरहर दाल',
+    pa: 'ਅਰਹਰ ਦਾਲ',
+    mr: 'तूर / अरहर डाळ',
+    te: 'కందిపప్పు (Tur Dal)',
+    ta: 'துவரம் பருப்பு (Tur Dal)',
+    kn: 'ತೊಗರಿ ಬೇಳೆ (Tur Dal)',
+    gu: 'તુવેર દાળ (Tur Dal)',
+    bn: 'অরহর ডাল (Tur Dal)',
+  },
+  chilli: {
+    en: 'Dry Red Chilli',
+    hi: 'सूखी लाल मिर्च',
+    pa: 'ਸੁੱਕੀ ਲਾਲ ਮਿਰਚ',
+    mr: 'सुकलेली लाल मिरची',
+    te: 'ఎండిన ఎండుమిర్చి',
+    ta: 'காய்ந்த மிளகாய்',
+    kn: 'ಒಣ ಮೆಣಸಿನಕಾಯಿ',
+    gu: 'સુકા લાલ મરચાં',
+    bn: 'শুকনো লাল লঙ্কা',
+  },
+  groundnut: {
+    en: 'Groundnut / Peanut',
+    hi: 'मूंगफली (Groundnut)',
+    pa: 'ਮੂੰਗਫਲੀ',
+    mr: 'भुईमूग / शेंगदाणा',
+    te: 'వేరుశనగ (Groundnut)',
+    ta: 'நிலக்கடலை (Groundnut)',
+    kn: 'ಕಡಲೆಕಾಯಿ / ಶೇಂಗಾ',
+    gu: 'મગફળી (Groundnut)',
+    bn: 'চীনাবাদাম (Groundnut)',
+  }
+};
+
+export const getLocalizedCropName = (cropId: string, lang: Language = 'en', fallbackName?: string): string => {
+  if (CROP_LOCALIZED_NAMES[cropId]?.[lang]) {
+    return CROP_LOCALIZED_NAMES[cropId][lang];
+  }
+  return fallbackName || cropId;
+};
+

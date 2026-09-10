@@ -559,6 +559,7 @@ export default function App() {
 
       {activeTab === 'sihpitch' && (
         <SihDemoWalkthrough
+          currentLanguage={currentLanguage}
           onSelectStepTab={(tab) => {
             setActiveTab(tab as any);
           }}

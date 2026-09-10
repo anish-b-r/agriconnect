@@ -22,7 +22,7 @@ import {
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, Legend, AreaChart, Area } from 'recharts';
 import { MandiRecord, Language } from '../types';
 import { CROP_MASTER_LIST, SAMPLE_MANDIS } from '../data/cropMaster';
-import { getTranslation } from '../utils/translations';
+import { getTranslation, getLocalizedCropName } from '../utils/translations';
 import { CustomSelect } from './CustomSelect';
 
 interface MandiTrendsMapProps {
@@ -110,7 +110,7 @@ export const MandiTrendsMap: React.FC<MandiTrendsMapProps> = ({ currentLanguage,
               onChange={(val) => setSelectedCropId(val)}
               options={CROP_MASTER_LIST.map((c) => ({
                 value: c.id,
-                label: `${c.name} (${c.hindiName})`,
+                label: getLocalizedCropName(c.id, currentLanguage, c.name),
               }))}
               dropdownWidth="w-64"
             />
