@@ -677,9 +677,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="text-lg sm:text-xl font-bold tracking-tight text-white font-display">
                   AgriConnect <span className="text-gradient-emerald">FairScore</span>
                 </span>
-                <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-                  SIH26132
-                </span>
               </div>
               <p className="text-[11px] text-stone-400 hidden sm:block">
                 {t.tagline || 'Predictive Fair Price Bands & Direct Farmer Market Linkages'}

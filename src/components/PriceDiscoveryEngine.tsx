@@ -160,11 +160,6 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
       <div className="bg-white rounded-2xl p-6 sm:p-7 border border-stone-200/80 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="bg-white text-stone-800 text-[11px] font-extrabold px-3.5 py-1 rounded-full border border-stone-200/90 shadow-2xs font-mono">
-                SIH26132 Multi-Factor Price Discovery
-              </span>
-            </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900 flex items-center gap-3 font-display">
               <IndianRupee className="w-8 h-8 text-[#1b4332]" />
               Fair Price Discovery & Negotiation Engine
