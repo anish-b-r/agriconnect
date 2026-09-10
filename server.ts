@@ -65,7 +65,7 @@ async function generateGeminiContentWithFallback(
   options?: { temperature?: number; responseMimeType?: string }
 ): Promise<string | null> {
   // Ordered by preference: primary flash -> fast high-capacity lite -> latest alias
-  const modelsToTry = ["gemini-3.6-flash", "gemini-1.5-flash", "gemini-2.5-flash"];
+  const modelsToTry = ["gemini-3.6-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
   let lastError: any = null;
 
   for (const model of modelsToTry) {
@@ -115,7 +115,33 @@ async function generateGeminiContentWithFallback(
 
 // Deterministic calculation backups for 100% uptime
 function getDeterministicYield(body: any) {
-  const { crop, variety, acreage, sowingDate, irrigationMethod, soil, weatherRisk, pestIncidence, costs, region, state } = body;
+  const crop = body.crop || body.cropId || 'Wheat';
+  const variety = body.variety || 'Lokwan Sharbati (Premium Grain)';
+  const acreage = Number(body.acreage || 5);
+  const sowingDate = body.sowingDate || '2026-06-15';
+  const irrigationMethod = body.irrigationMethod || 'Borewell / Drip';
+  
+  const nitrogen = body.soil?.nitrogen ?? body.soilNitrogen ?? 240;
+  const phosphorus = body.soil?.phosphorus ?? body.soilPhosphorus ?? 32;
+  const potassium = body.soil?.potassium ?? body.soilPotassium ?? 210;
+  const ph = body.soil?.ph ?? body.soilPh ?? 7.2;
+  const soilType = body.soil?.soilType ?? body.soilType ?? 'Black / Regur';
+  const organicCarbon = body.soil?.organicCarbon ?? body.organicCarbon ?? 0.75;
+  
+  const weatherRisk = body.weatherRisk || body.weatherRiskFactor || 'Normal';
+  const pestIncidence = body.pestIncidence || 'None / Prevented';
+  const region = body.region || 'Malwa Agro-Climatic Zone';
+  const state = body.state || 'Madhya Pradesh';
+  
+  const costs = body.costs || {};
+  const seeds = Number(costs.seeds || (900 * acreage));
+  const fertilizers = Number(costs.fertilizersAndBioInputs || (2400 * acreage));
+  const irrigation = Number(costs.irrigationAndPower || (1300 * acreage));
+  const labor = Number(costs.laborAndHarvesting || (3600 * acreage));
+  const machinery = Number(costs.machineryAndTillage || (1900 * acreage));
+  const cropProtection = Number(costs.cropProtectionPesticides || (900 * acreage));
+  const overhead = Number(costs.landLeaseAndOverhead || (4100 * acreage));
+
   const baseYieldPerAcre = 18; // default
   let modifier = 1.0;
   if (weatherRisk === 'Deficit Monsoon (-15%)') modifier -= 0.15;
@@ -124,11 +150,11 @@ function getDeterministicYield(body: any) {
   if (pestIncidence === 'Moderate') modifier -= 0.10;
   if (pestIncidence === 'Severe') modifier -= 0.25;
   if (irrigationMethod === 'Borewell / Drip') modifier += 0.15;
-  if (soil?.ph >= 6.5 && soil?.ph <= 7.5) modifier += 0.08;
+  if (ph >= 6.5 && ph <= 7.5) modifier += 0.08;
 
   const yieldPerAcre = Math.round((baseYieldPerAcre * modifier) * 10) / 10;
-  const totalYield = Math.round(yieldPerAcre * Number(acreage || 1) * 10) / 10;
-  const totalCost = (costs?.seeds || 0) + (costs?.fertilizersAndBioInputs || 0) + (costs?.irrigationAndPower || 0) + (costs?.laborAndHarvesting || 0) + (costs?.machineryAndTillage || 0) + (costs?.cropProtectionPesticides || 0) + (costs?.landLeaseAndOverhead || 0);
+  const totalYield = Math.round(yieldPerAcre * acreage * 10) / 10;
+  const totalCost = seeds + fertilizers + irrigation + labor + machinery + cropProtection + overhead;
   const copPerQtl = totalYield > 0 ? Math.round(totalCost / totalYield) : 1600;
 
   return {
@@ -154,7 +180,7 @@ function getDeterministicYield(body: any) {
       "Apply foliar spray of 1% Potassium Nitrate (13:0:45) to enhance seed weight and bold grain grade.",
       "Schedule harvest during morning hours when relative humidity is lowest to preserve grain luster."
     ],
-    aiAnalysisText: `Based on agro-climatic parameters for ${crop || 'Crop'} in ${region || 'Central India'}, your expected yield is ${totalYield} Quintals (${yieldPerAcre} Qtl/Acre) with a high Grade A proportion of 65%. Your calculated direct Cost of Production (A2+FL) is ₹${copPerQtl}/Qtl.`,
+    aiAnalysisText: `Based on agro-climatic parameters for ${crop} in ${region}, your expected yield is ${totalYield} Quintals (${yieldPerAcre} Qtl/Acre) with a high Grade A proportion of 65%. Your calculated direct Cost of Production (A2+FL) is ₹${copPerQtl}/Qtl.`,
   };
 }
 
@@ -237,10 +263,26 @@ function getDeterministicAdvisory(body: any) {
   };
 }
 
-// 1. Yield & Growth Prediction Endpoint
-app.post("/api/gemini/yield-predict", async (req, res) => {
+// 1. Yield & Growth Prediction Endpoint (Handles both /api/gemini/yield-predict and /api/gemini/predict-yield)
+const handleYieldPredict = async (req: express.Request, res: express.Response) => {
   try {
-    const { crop, variety, acreage, sowingDate, irrigationMethod, soil, weatherRisk, pestIncidence, costs, region, state } = req.body;
+    const crop = req.body.crop || req.body.cropId || 'Wheat';
+    const variety = req.body.variety || 'Standard High Yielding Variety';
+    const acreage = Number(req.body.acreage || 5);
+    const sowingDate = req.body.sowingDate || '2026-06-15';
+    const irrigationMethod = req.body.irrigationMethod || 'Borewell / Drip';
+    const n = req.body.soil?.nitrogen ?? req.body.soilNitrogen ?? 240;
+    const p = req.body.soil?.phosphorus ?? req.body.soilPhosphorus ?? 32;
+    const k = req.body.soil?.potassium ?? req.body.soilPotassium ?? 210;
+    const ph = req.body.soil?.ph ?? req.body.soilPh ?? 7.2;
+    const sType = req.body.soil?.soilType ?? req.body.soilType ?? 'Black / Regur';
+    const oc = req.body.soil?.organicCarbon ?? req.body.organicCarbon ?? 0.75;
+    const weatherRisk = req.body.weatherRisk || req.body.weatherRiskFactor || 'Normal';
+    const pestIncidence = req.body.pestIncidence || 'None / Prevented';
+    const region = req.body.region || 'Malwa Agro-Climatic Zone';
+    const state = req.body.state || 'Madhya Pradesh';
+    const costs = req.body.costs || {};
+
     const ai = getGeminiClient();
 
     if (ai) {
@@ -248,14 +290,14 @@ app.post("/api/gemini/yield-predict", async (req, res) => {
 Analyze the following farm data and generate an accurate scientific yield forecast and production cost analysis in valid JSON:
 
 Crop: ${crop}
-Variety: ${variety || 'Standard High Yielding Variety'}
+Variety: ${variety}
 Acreage: ${acreage} Acres
 Sowing Date: ${sowingDate}
 Irrigation Method: ${irrigationMethod}
-Soil Data: N: ${soil?.nitrogen} kg/ha, P: ${soil?.phosphorus} kg/ha, K: ${soil?.potassium} kg/ha, pH: ${soil?.ph}, Soil Type: ${soil?.soilType}, Organic Carbon: ${soil?.organicCarbon}%
+Soil Data: N: ${n} kg/ha, P: ${p} kg/ha, K: ${k} kg/ha, pH: ${ph}, Soil Type: ${sType}, Organic Carbon: ${oc}%
 Weather / Climate Risk: ${weatherRisk}
 Pest Incidence: ${pestIncidence}
-Input Costs: Seeds: ₹${costs?.seeds}, Fertilizers: ₹${costs?.fertilizersAndBioInputs}, Irrigation/Power: ₹${costs?.irrigationAndPower}, Labor: ₹${costs?.laborAndHarvesting}, Machinery: ₹${costs?.machineryAndTillage}, Crop Protection: ₹${costs?.cropProtectionPesticides}, Lease/Overhead: ₹${costs?.landLeaseAndOverhead}
+Input Costs: Seeds: ₹${costs.seeds || 4500}, Fertilizers: ₹${costs.fertilizersAndBioInputs || 12000}, Irrigation/Power: ₹${costs.irrigationAndPower || 6500}, Labor: ₹${costs.laborAndHarvesting || 18000}, Machinery: ₹${costs.machineryAndTillage || 9500}, Crop Protection: ₹${costs.cropProtectionPesticides || 4500}, Lease/Overhead: ₹${costs.landLeaseAndOverhead || 20500}
 Region/State: ${region}, ${state}
 
 Return ONLY valid JSON matching this structure:
@@ -289,7 +331,7 @@ Return ONLY valid JSON matching this structure:
       if (text) {
         try {
           const data = JSON.parse(text);
-          return res.json({ success: true, data, source: 'ai' });
+          return res.json({ success: true, data, prediction: data, source: 'ai' });
         } catch (e) {
           console.log("[AI Gateway] Yield JSON parsed via deterministic agronomic engine.");
         }
@@ -298,13 +340,16 @@ Return ONLY valid JSON matching this structure:
 
     // Fallback deterministic calculation if AI is absent, overloaded (503), or rate-limited
     const fallbackData = getDeterministicYield(req.body);
-    return res.json({ success: true, data: fallbackData, source: 'deterministic' });
+    return res.json({ success: true, data: fallbackData, prediction: fallbackData, source: 'deterministic' });
   } catch (error: any) {
     console.log("[Yield Engine] Yield prediction processed via deterministic model:", error?.message);
     const fallbackData = getDeterministicYield(req.body);
-    return res.json({ success: true, data: fallbackData, source: 'deterministic' });
+    return res.json({ success: true, data: fallbackData, prediction: fallbackData, source: 'deterministic' });
   }
-});
+};
+
+app.post("/api/gemini/yield-predict", handleYieldPredict);
+app.post("/api/gemini/predict-yield", handleYieldPredict);
 
 // 2. Fair Baseline Price Discovery & Decision Engine
 app.post("/api/gemini/price-discovery", async (req, res) => {
@@ -362,7 +407,7 @@ Return ONLY valid JSON matching this schema:
       if (text) {
         try {
           const data = JSON.parse(text);
-          return res.json({ success: true, data, source: 'ai' });
+          return res.json({ success: true, data, assessment: data, source: 'ai' });
         } catch (e) {
           console.log("[AI Gateway] Price discovery JSON parsed via Swaminathan pricing model.");
         }
@@ -371,11 +416,10 @@ Return ONLY valid JSON matching this schema:
 
     // Fallback deterministic calculation if AI is absent, overloaded (503), or rate-limited
     const fallbackData = getDeterministicPriceDiscovery(req.body);
-    return res.json({ success: true, data: fallbackData, source: 'deterministic' });
+    return res.json({ success: true, data: fallbackData, assessment: fallbackData, source: 'deterministic' });
   } catch (error: any) {
     console.log("[Price Engine] Price discovery processed via Swaminathan pricing model:", error?.message);
     const fallbackData = getDeterministicPriceDiscovery(req.body);
-    return res.json({ success: true, data: fallbackData, source: 'deterministic' });
   }
 });
 

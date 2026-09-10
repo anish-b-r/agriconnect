@@ -99,8 +99,8 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
 
       const resData = await response.json();
 
-      if (resData && resData.assessment) {
-        setFairAssessment(resData.assessment);
+      if (resData && (resData.assessment || resData.data)) {
+        setFairAssessment(resData.assessment || resData.data);
       } else {
         const msp = selectedCrop.defaultMsp;
         const avgMandi = mandiList.reduce((acc, m) => acc + m.modalPrice, 0) / (mandiList.length || 1);

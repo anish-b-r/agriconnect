@@ -114,14 +114,14 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
     };
 
     try {
-      const response = await fetch('/api/gemini/predict-yield', {
+      const response = await fetch('/api/gemini/yield-predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(inputPayload),
       });
       const data = await response.json();
-      if (data && data.prediction) {
-        setPrediction(data.prediction);
+      if (data && (data.prediction || data.data)) {
+        setPrediction(data.prediction || data.data);
       }
     } catch (e) {
       console.warn('Using local fallback yield prediction');
