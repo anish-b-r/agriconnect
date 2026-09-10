@@ -23,7 +23,8 @@ import {
   LogIn,
   Sparkles,
   Layers,
-  BookOpen
+  BookOpen,
+  Languages
 } from 'lucide-react';
 import { NavTabType } from './Navbar';
 import { Language, MongoUser } from '../types';
@@ -58,6 +59,18 @@ const NAV_ITEMS = [
 
 const STATES_LIST = ['Punjab', 'Haryana', 'Maharashtra', 'Karnataka', 'Madhya Pradesh', 'Gujarat', 'Uttar Pradesh', 'Rajasthan'];
 
+const LANGUAGES_LIST: { code: Language; name: string; native: string; region: string }[] = [
+  { code: 'en', name: 'English', native: 'English', region: 'All India / National' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी', region: 'North & Central India' },
+  { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ', region: 'Punjab & North India' },
+  { code: 'mr', name: 'Marathi', native: 'मराठी', region: 'Maharashtra' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు', region: 'Andhra Pradesh & Telangana' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்', region: 'Tamil Nadu & Puducherry' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ', region: 'Karnataka' },
+  { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી', region: 'Gujarat' },
+  { code: 'bn', name: 'Bengali', native: 'বাংলা', region: 'West Bengal & Tripura' },
+];
+
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   activeTab,
   setActiveTab,
@@ -74,6 +87,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -247,7 +261,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               
               {/* Location State Selector Dropdown */}
-              <div className="w-28 sm:w-44 md:w-48 flex-shrink-0">
+              <div className="w-28 sm:w-40 md:w-44 flex-shrink-0">
                 <CustomSelect
                   value={selectedState}
                   onChange={(st) => setSelectedState(st)}
@@ -256,6 +270,23 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   dropdownWidth="w-48"
                   align="right"
                 />
+              </div>
+
+              {/* Header Change Language Selector Button */}
+              <div className="relative flex-shrink-0">
+                <button
+                  onClick={() => setIsLanguageModalOpen(true)}
+                  className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-full bg-white hover:bg-stone-50 text-stone-900 border border-stone-200/90 shadow-2xs text-xs font-extrabold cursor-pointer transition-colors"
+                  title="Change Application Language (Vernacular Indian Languages)"
+                  id="dashboard-header-language-btn"
+                >
+                  <Languages className="w-4 h-4 text-[#1b4332] flex-shrink-0" />
+                  <span className="font-extrabold hidden md:inline">
+                    {LANGUAGES_LIST.find((l) => l.code === currentLanguage)?.native || 'Language'}
+                  </span>
+                  <span className="md:hidden font-extrabold uppercase">{currentLanguage}</span>
+                  <ChevronDown className="w-3.5 h-3.5 text-stone-400 flex-shrink-0" />
+                </button>
               </div>
 
               {/* Notification Bell Icon */}
@@ -348,6 +379,90 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           </main>
         </div>
       </div>
+
+      {/* Vernacular Indian Languages Selector Modal */}
+      {isLanguageModalOpen && (
+        <div className="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl border border-stone-200 overflow-hidden max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100 bg-stone-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-[#1b4332] text-white flex items-center justify-center shadow-md">
+                  <Languages className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black tracking-tight text-stone-900 font-display">
+                    Select Language / भाषा चुनें
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Choose your preferred Indian language for real-time translation across AgriConnect.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsLanguageModalOpen(false)}
+                className="w-9 h-9 rounded-xl bg-stone-200/70 hover:bg-stone-200 flex items-center justify-center text-stone-600 hover:text-stone-900 cursor-pointer transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Language Grid */}
+            <div className="p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 flex-1">
+              {LANGUAGES_LIST.map((lang) => {
+                const isSelected = currentLanguage === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setCurrentLanguage(lang.code);
+                      setIsLanguageModalOpen(false);
+                    }}
+                    className={`p-4 rounded-2xl text-left border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                      isSelected
+                        ? 'bg-emerald-50/80 border-[#1b4332] text-stone-900 shadow-md ring-2 ring-emerald-600/20 font-bold'
+                        : 'bg-stone-50/80 hover:bg-stone-100/80 border-stone-200/90 text-stone-700 hover:border-emerald-600/40'
+                    }`}
+                  >
+                    <div>
+                      <div className="text-base font-extrabold font-display leading-snug text-[#1b4332]">
+                        {lang.native}
+                      </div>
+                      <div className="text-xs font-bold text-stone-800 mt-0.5">
+                        {lang.name}
+                      </div>
+                      <div className="text-[10px] text-stone-400 font-mono mt-1">
+                        {lang.region}
+                      </div>
+                    </div>
+
+                    {isSelected ? (
+                      <div className="w-6 h-6 rounded-full bg-[#1b4332] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                        ✓
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-stone-200 text-stone-500 flex items-center justify-center text-xs flex-shrink-0">
+                        →
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-4 bg-stone-50 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500 font-mono">
+              <span>🌐 9 Vernacular Indian Languages Supported</span>
+              <button
+                onClick={() => setIsLanguageModalOpen(false)}
+                className="px-5 py-2.5 bg-[#1b4332] hover:bg-[#143527] text-white font-extrabold rounded-xl text-xs cursor-pointer transition-all shadow-sm"
+              >
+                Done / हो गया
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
