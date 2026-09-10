@@ -1,0 +1,6 @@
+{
+  "name": "AgriConnect FairScore",
+  "description": "Predictive fair-value and direct market-linkage platform combining mandi price trends, weather forecasts, oversupply detection, and 0-100 FairScore bands for farmers and verified buyers (SIH26132).",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
