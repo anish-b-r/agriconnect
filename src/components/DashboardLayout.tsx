@@ -244,45 +244,51 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         <div className="flex-1 flex flex-col min-w-0 w-full overflow-x-hidden">
           
           {/* TOP HEADER BAR */}
-          <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-stone-200/80 px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-6 w-full min-w-0">
+          <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-stone-200/80 px-2.5 sm:px-6 py-2.5 flex items-center justify-between gap-1.5 sm:gap-4 w-full min-w-0">
             
             {/* Left: Mobile Menu Trigger + Search Bar */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-initial w-full sm:w-80 md:w-96 max-w-md">
+            <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden p-2 rounded-xl text-stone-600 hover:bg-stone-100 cursor-pointer flex-shrink-0"
+                className="lg:hidden p-1.5 rounded-xl text-stone-700 hover:bg-stone-100 cursor-pointer flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               {/* Search Bar Input */}
-              <div className="relative flex-1">
-                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <div className="relative hidden sm:block w-44 md:w-80">
+                <Search className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder || 'Search for a crop, mandi or location...'}
+                  placeholder={t.searchPlaceholder || 'Search crop, mandi...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
-                  className="w-full pl-9 pr-14 py-2 bg-stone-100/80 border border-stone-200/70 rounded-full text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:bg-white transition-all placeholder:text-stone-400 truncate"
+                  className="w-full pl-9 pr-8 py-1.5 bg-stone-100/90 border border-stone-200/70 rounded-full text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:bg-white transition-all placeholder:text-stone-400 truncate"
                 />
-                <span className="hidden sm:inline-flex items-center gap-0.5 absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-stone-400 font-mono bg-white px-1.5 py-0.5 rounded border border-stone-200">
-                  Ctrl K
-                </span>
               </div>
+
+              {/* Mobile Search Trigger Icon */}
+              <button
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                className="sm:hidden p-1.5 rounded-full bg-stone-100 text-stone-700 hover:bg-stone-200 cursor-pointer flex-shrink-0"
+                title="Search"
+              >
+                <Search className="w-4 h-4" />
+              </button>
             </div>
 
             {/* Right: State Selector, Notifications, Profile Avatar */}
-            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            <div className="flex items-center gap-1 sm:gap-2.5 flex-shrink-0">
               
               {/* Location State Selector Dropdown */}
-              <div className="w-28 sm:w-40 md:w-44 flex-shrink-0">
+              <div className="w-24 sm:w-36 md:w-44 flex-shrink-0">
                 <CustomSelect
                   value={selectedState}
                   onChange={(st) => setSelectedState(st)}
                   options={STATES_LIST.map((st) => ({ value: st, label: st }))}
                   icon={MapPin}
-                  dropdownWidth="w-48"
+                  dropdownWidth="w-40 sm:w-48"
                   align="right"
                 />
               </div>
@@ -291,16 +297,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               <div className="relative flex-shrink-0">
                 <button
                   onClick={() => setIsLanguageModalOpen(true)}
-                  className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-2 rounded-full bg-white hover:bg-stone-50 text-stone-900 border border-stone-200/90 shadow-2xs text-xs font-extrabold cursor-pointer transition-colors"
+                  className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-full bg-white hover:bg-stone-50 text-stone-900 border border-stone-200/90 shadow-2xs text-[11px] sm:text-xs font-extrabold cursor-pointer transition-colors"
                   title="Change Application Language (Vernacular Indian Languages)"
                   id="dashboard-header-language-btn"
                 >
-                  <Languages className="w-4 h-4 text-[#1b4332] flex-shrink-0" />
+                  <Languages className="w-3.5 h-3.5 text-[#1b4332] flex-shrink-0" />
                   <span className="font-extrabold hidden md:inline">
                     {LANGUAGES_LIST.find((l) => l.code === currentLanguage)?.native || 'Language'}
                   </span>
-                  <span className="md:hidden font-extrabold uppercase">{currentLanguage}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-stone-400 flex-shrink-0" />
+                  <span className="md:hidden font-extrabold uppercase text-[11px] sm:text-xs">{currentLanguage}</span>
+                  <ChevronDown className="w-3 h-3 text-stone-400 flex-shrink-0" />
                 </button>
               </div>
 

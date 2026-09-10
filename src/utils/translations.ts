@@ -292,6 +292,10 @@ export const APP_TRANSLATIONS: Record<Language, TranslationDictionary> = {
     settingsNav: 'सेटिंग्स',
     empoweringFarmersNav: 'किसानों का सशक्तिकरण, हर दिन।',
 
+    rightPricesStrongerHarvests: 'सही दाम, मजबूत फसल',
+    growingBrighterTomorrow: 'उज्ज्वल भविष्य की ओर कदम',
+    fairMarketsStrongerIndia: 'पारदर्शी मंडी, सशक्त भारत',
+
     appTitle: 'एग्रीकनेक्ट फेयरस्कोर',
     tagline: 'किसानों के लिए सटीक मूल्य पूर्वानुमान, 0-100 फेयरस्कोर और सीधा बाजार संपर्क (SIH26132)',
     yieldPredictor: 'उपज और लागत AI',

@@ -251,19 +251,13 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
   return (
     <div className="space-y-6 animate-fadeIn pb-8">
       {/* Top Banner / Hero Title Header Section */}
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-        <div>
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6">
+        <div className="w-full lg:w-auto">
           <span className="text-[11px] font-extrabold text-stone-400 tracking-wider uppercase font-mono block mb-1">
             FAIRSCORE
           </span>
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight font-display mb-2">
-            {currentLanguage === 'en' ? (
-              <>
-                Right Prices <br className="hidden sm:inline" /> Stronger Harvests
-              </>
-            ) : (
-              t.rightPricesStrongerHarvests || 'Right Prices Stronger Harvests'
-            )}
+          <h1 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight leading-snug font-display mb-2 break-words">
+            {t.rightPricesStrongerHarvests || 'Right Prices, Stronger Harvests'}
           </h1>
           <p className="text-xs sm:text-sm text-stone-500 max-w-xl font-normal leading-relaxed">
             {t.simpleGuideSubtitle || 'Check real mandi rates, compare with government benchmarks, and sell directly to verified buyers.'}
@@ -271,26 +265,26 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
         </div>
 
         {/* Right Hero Banner Card with Farmland Image */}
-        <div className="relative rounded-2xl overflow-hidden shadow-sm border border-stone-200/80 w-full lg:w-[460px] h-[155px] flex-shrink-0 bg-stone-100">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm border border-stone-200/80 w-full lg:w-[460px] min-h-[140px] sm:h-[155px] flex-shrink-0 bg-stone-100">
           <img 
             src="/assets/farmland_banner.jpg" 
             alt="Lush green Indian farmland" 
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-stone-950/40 via-transparent to-transparent" />
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-stone-950/60 via-stone-950/30 to-transparent" />
           
-          <div className="relative z-10 p-5 flex flex-col justify-between h-full">
+          <div className="relative z-10 p-4 sm:p-5 flex flex-col justify-between h-full space-y-3">
             <div>
-              <h3 className="text-xl font-extrabold text-white leading-snug drop-shadow-md font-display max-w-[200px]">
+              <h3 className="text-base sm:text-xl font-extrabold text-white leading-snug drop-shadow-md font-display max-w-[260px]">
                 {t.growingBrighterTomorrow || 'Growing a brighter tomorrow'}
               </h3>
-              <div className="w-10 h-1 bg-emerald-400 rounded-full mt-2" />
+              <div className="w-10 h-1 bg-emerald-400 rounded-full mt-1.5" />
             </div>
 
-            <div className="self-end">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-stone-800 bg-white/95 backdrop-blur-md border border-stone-200 px-3 py-1 rounded-full shadow-sm">
-                <span>{t.fairMarketsStrongerIndia || 'Fair markets for a stronger India.'}</span>
+            <div className="self-start sm:self-end max-w-full">
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-stone-800 bg-white/95 backdrop-blur-md border border-stone-200 px-2.5 sm:px-3 py-1 rounded-full shadow-sm max-w-full truncate">
+                <span className="truncate">{t.fairMarketsStrongerIndia || 'Fair markets for a stronger India.'}</span>
               </span>
             </div>
           </div>
