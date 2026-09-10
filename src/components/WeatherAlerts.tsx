@@ -304,7 +304,8 @@ export const WeatherAlerts: React.FC<WeatherAlertsProps> = ({
               sublabel: d.zone,
             }))}
             icon={MapPin}
-            dropdownWidth="w-80"
+            dropdownWidth="w-72 sm:w-80"
+            align="left"
           />
         </div>
 
