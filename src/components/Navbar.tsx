@@ -815,11 +815,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right Action Controls */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
             {/* Vernacular Voice Advisory Pill Button */}
             <button
               onClick={onOpenAdvisory}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 shadow-md transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 shadow-md transition-all cursor-pointer flex-shrink-0"
             >
               <div className="flex items-center gap-0.5 h-3">
                 <span className="w-0.5 bg-stone-950 wave-bar-1"></span>
@@ -827,17 +827,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span className="w-0.5 bg-stone-950 wave-bar-3"></span>
                 <span className="w-0.5 bg-stone-950 wave-bar-4"></span>
               </div>
-              <span className="font-extrabold">{navLabels.kisanAdvisory}</span>
+              <span className="font-extrabold hidden sm:inline">{navLabels.kisanAdvisory}</span>
             </button>
 
             {/* Language Dropdown */}
-            <div className="relative flex items-center">
-              <div className="flex items-center gap-1.5 bg-emerald-950/80 border border-emerald-500/30 rounded-xl px-2.5 py-1.5 text-xs text-stone-200">
-                <Languages className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="relative flex items-center flex-shrink-0">
+              <div className="flex items-center gap-1 bg-emerald-950/80 border border-emerald-500/30 rounded-xl px-1.5 sm:px-2.5 py-1.5 text-xs text-stone-200">
+                <Languages className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                 <select
                   value={currentLanguage}
                   onChange={(e) => setCurrentLanguage(e.target.value as Language)}
-                  className="bg-transparent border-none text-xs text-stone-200 font-semibold focus:outline-none cursor-pointer pr-1"
+                  className="bg-transparent border-none text-xs text-stone-200 font-semibold focus:outline-none cursor-pointer pr-0.5 max-w-[80px] sm:max-w-none"
                 >
                   {languagesList.map((lang) => (
                     <option key={lang.code} value={lang.code} className="bg-stone-900 text-stone-100">
@@ -850,10 +850,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* User Profile / Auth */}
             {currentUser ? (
-              <div className="flex items-center gap-1.5 pl-1.5 border-l border-emerald-900/50">
+              <div className="flex items-center gap-1 pl-1 border-l border-emerald-900/50 flex-shrink-0">
                 <button
                   onClick={() => onOpenAuth?.('login')}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-stone-200 border border-emerald-500/30 text-xs transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-stone-200 border border-emerald-500/30 text-xs transition-colors cursor-pointer flex-shrink-0"
                   title={`Logged in as ${currentUser.name} (${currentUser.role}). Click to switch profile.`}
                   id="navbar-profile-btn"
                 >
@@ -870,21 +870,21 @@ export const Navbar: React.FC<NavbarProps> = ({
                     if (onOpenAuth) onOpenAuth('logoutConfirm');
                     else if (onLogout) onLogout();
                   }}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold bg-rose-950/70 hover:bg-rose-900/90 text-rose-300 border border-rose-500/40 transition-all cursor-pointer"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs font-bold bg-rose-950/70 hover:bg-rose-900/90 text-rose-300 border border-rose-500/40 transition-all cursor-pointer flex-shrink-0"
                   title="Log out of AgriConnect"
                   id="navbar-logout-btn"
                 >
-                  <LogOut className="w-3.5 h-3.5 text-rose-400" />
+                  <LogOut className="w-3.5 h-3.5 text-rose-400 flex-shrink-0" />
                   <span className="hidden sm:inline">{navLabels.logout}</span>
                 </button>
               </div>
             ) : (
               <button
                 onClick={() => onOpenAuth?.('login')}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-stone-950 shadow-md transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-stone-950 shadow-md transition-all cursor-pointer flex-shrink-0"
                 id="navbar-login-btn"
               >
-                <LogIn className="w-3.5 h-3.5" />
+                <LogIn className="w-3.5 h-3.5 flex-shrink-0" />
                 <span>{navLabels.login}</span>
               </button>
             )}
@@ -892,9 +892,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-stone-300 hover:text-white cursor-pointer"
+              className="xl:hidden p-1.5 sm:p-2 rounded-xl bg-emerald-950/80 border border-emerald-500/30 text-stone-300 hover:text-white cursor-pointer flex-shrink-0"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className="w-5 h-5 flex-shrink-0" />
             </button>
           </div>
         </div>

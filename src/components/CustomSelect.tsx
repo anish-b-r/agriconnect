@@ -28,6 +28,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
   className = '',
   dropdownWidth = 'w-56',
   size = 'md',
+  align = 'right',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,11 +50,11 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between gap-2.5 bg-white hover:bg-stone-50 border border-stone-200/90 text-stone-900 font-extrabold rounded-full shadow-2xs cursor-pointer transition-all outline-none ${
-          size === 'sm' ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-xs'
+        className={`w-full flex items-center justify-between gap-1.5 sm:gap-2.5 bg-white hover:bg-stone-50 border border-stone-200/90 text-stone-900 font-extrabold rounded-full shadow-2xs cursor-pointer transition-all outline-none ${
+          size === 'sm' ? 'px-2.5 py-1 text-xs' : 'px-3 sm:px-4 py-1.5 sm:py-2 text-xs'
         } ${isOpen ? 'border-[#1b4332] ring-1 ring-[#1b4332]' : ''}`}
       >
-        <div className="flex items-center gap-2 truncate">
+        <div className="flex items-center gap-1.5 sm:gap-2 truncate">
           {IconProp && <IconProp className="w-3.5 h-3.5 text-[#1b4332] shrink-0" />}
           <span className="truncate">{selectedOption?.label || placeholder}</span>
         </div>
@@ -62,7 +63,7 @@ export const CustomSelect: React.FC<CustomSelectProps> = ({
 
       {isOpen && (
         <div
-          className={`absolute left-0 mt-1.5 ${dropdownWidth} max-h-64 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden bg-white border border-stone-200/90 rounded-2xl shadow-xl z-50 p-1.5 space-y-0.5 animate-scaleUp`}
+          className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} mt-1.5 ${dropdownWidth} max-w-[90vw] max-h-64 overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden bg-white border border-stone-200/90 rounded-2xl shadow-xl z-50 p-1.5 space-y-0.5 animate-scaleUp`}
         >
           {options.map((option) => {
             const isSelected = option.value === value;
