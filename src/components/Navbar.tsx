@@ -404,18 +404,19 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLabels = getNavLabels(currentLanguage);
   const isAdmin = currentUser?.role === 'admin' || currentUser?.name?.toLowerCase() === 'admin' || currentUser?.name?.toLowerCase().includes('admin');
   const [showMandiBulletinModal, setShowMandiBulletinModal] = useState<boolean>(false);
+  const [showLanguageModal, setShowLanguageModal] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-  const languagesList: { code: Language; name: string; native: string }[] = [
-    { code: 'en', name: 'English', native: 'English' },
-    { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
-    { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ' },
-    { code: 'mr', name: 'Marathi', native: 'मराठी' },
-    { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ' },
-    { code: 'te', name: 'Telugu', native: 'తెలుగు' },
-    { code: 'ta', name: 'Tamil', native: 'தமிழ்' },
-    { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી' },
-    { code: 'bn', name: 'Bengali', native: 'বাংলা' },
+  const languagesList: { code: Language; name: string; native: string; region: string }[] = [
+    { code: 'en', name: 'English', native: 'English', region: 'All India / National' },
+    { code: 'hi', name: 'Hindi', native: 'हिन्दी', region: 'North & Central India' },
+    { code: 'pa', name: 'Punjabi', native: 'ਪੰਜਾਬੀ', region: 'Punjab & North India' },
+    { code: 'mr', name: 'Marathi', native: 'मराठी', region: 'Maharashtra' },
+    { code: 'te', name: 'Telugu', native: 'తెలుగు', region: 'Andhra Pradesh & Telangana' },
+    { code: 'ta', name: 'Tamil', native: 'தமிழ்', region: 'Tamil Nadu & Puducherry' },
+    { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ', region: 'Karnataka' },
+    { code: 'gu', name: 'Gujarati', native: 'ગુજરાતી', region: 'Gujarat' },
+    { code: 'bn', name: 'Bengali', native: 'বাংলা', region: 'West Bengal & Tripura' },
   ];
 
   const liveMandiBulletins = [
@@ -830,14 +831,27 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="font-extrabold hidden sm:inline">{navLabels.kisanAdvisory}</span>
             </button>
 
-            {/* Language Dropdown */}
-            <div className="relative flex items-center flex-shrink-0">
-              <div className="flex items-center gap-1 bg-emerald-950/80 border border-emerald-500/30 rounded-xl px-1.5 sm:px-2.5 py-1.5 text-xs text-stone-200">
-                <Languages className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+            {/* Change Language Button & Dropdown */}
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <button
+                onClick={() => setShowLanguageModal(true)}
+                className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl text-xs font-extrabold bg-emerald-950/90 hover:bg-emerald-900/90 text-emerald-200 border border-emerald-500/40 shadow-sm transition-all cursor-pointer flex-shrink-0"
+                title="Change Application Language (All 13 Indian Languages)"
+                id="navbar-change-language-btn"
+              >
+                <Languages className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span className="font-extrabold hidden md:inline">
+                  {languagesList.find((l) => l.code === currentLanguage)?.native || 'Language'}
+                </span>
+                <span className="md:hidden font-extrabold uppercase">{currentLanguage}</span>
+                <ChevronDown className="w-3.5 h-3.5 text-emerald-400/80 flex-shrink-0" />
+              </button>
+
+              <div className="hidden lg:flex items-center gap-1 bg-emerald-950/80 border border-emerald-500/30 rounded-xl px-1.5 sm:px-2 py-1.5 text-xs text-stone-200">
                 <select
                   value={currentLanguage}
                   onChange={(e) => setCurrentLanguage(e.target.value as Language)}
-                  className="bg-transparent border-none text-xs text-stone-200 font-semibold focus:outline-none cursor-pointer pr-0.5 max-w-[80px] sm:max-w-none"
+                  className="bg-transparent border-none text-xs text-stone-200 font-semibold focus:outline-none cursor-pointer pr-0.5"
                 >
                   {languagesList.map((lang) => (
                     <option key={lang.code} value={lang.code} className="bg-stone-900 text-stone-100">
@@ -999,6 +1013,90 @@ export const Navbar: React.FC<NavbarProps> = ({
           </ArrowScrollContainer>
         </div>
       </div>
+
+      {/* Full Vernacular Indian Languages Selector Modal */}
+      {showLanguageModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-stone-900 border border-emerald-500/30 max-w-3xl w-full rounded-3xl p-5 sm:p-6 text-white shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-stone-800">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  <Languages className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-base sm:text-lg font-black tracking-tight text-white font-display">
+                    Select Language / भाषा चुनें
+                  </h3>
+                  <p className="text-xs text-stone-400">
+                    Choose your preferred Indian language for instant translation across KrishiSetu.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowLanguageModal(false)}
+                className="w-9 h-9 rounded-xl bg-stone-800 hover:bg-stone-700 flex items-center justify-center text-stone-400 hover:text-white cursor-pointer transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Language Grid */}
+            <div className="py-5 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 flex-1 pr-1">
+              {languagesList.map((lang) => {
+                const isSelected = currentLanguage === lang.code;
+                return (
+                  <button
+                    key={lang.code}
+                    onClick={() => {
+                      setCurrentLanguage(lang.code);
+                      setShowLanguageModal(false);
+                    }}
+                    className={`p-3.5 rounded-2xl text-left border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                      isSelected
+                        ? 'bg-emerald-500/20 border-emerald-400 text-white shadow-lg shadow-emerald-950/50 ring-2 ring-emerald-500/30'
+                        : 'bg-stone-950/80 hover:bg-stone-800/80 border-stone-800 text-stone-300 hover:border-emerald-500/40'
+                    }`}
+                  >
+                    <div>
+                      <div className="text-base font-extrabold font-display leading-snug text-emerald-300">
+                        {lang.native}
+                      </div>
+                      <div className="text-xs font-semibold text-white mt-0.5">
+                        {lang.name}
+                      </div>
+                      <div className="text-[10px] text-stone-400 font-mono mt-1">
+                        {lang.region}
+                      </div>
+                    </div>
+
+                    {isSelected ? (
+                      <div className="w-6 h-6 rounded-full bg-emerald-500 text-stone-950 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                        ✓
+                      </div>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-stone-800 text-stone-500 flex items-center justify-center text-xs flex-shrink-0">
+                        →
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="pt-4 border-t border-stone-800 flex items-center justify-between text-xs text-stone-400 font-mono">
+              <span>🌐 13 Vernacular Languages Supported</span>
+              <button
+                onClick={() => setShowLanguageModal(false)}
+                className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-extrabold rounded-xl text-xs cursor-pointer transition-all shadow-md"
+              >
+                Done / हो गया
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
