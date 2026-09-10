@@ -88,8 +88,8 @@ export const FarmerPortfolio: React.FC<FarmerPortfolioProps> = ({
 
   const [cropId, setCropId] = useState<string>(initialCropId || 'wheat');
   const [variety, setVariety] = useState<string>('Lokwan Sharbati');
-  const [quantity, setQuantity] = useState<number>(100);
-  const [askingPrice, setAskingPrice] = useState<number>(initialAskingPrice || 2750);
+  const [quantity, setQuantity] = useState<number | ''>(100);
+  const [askingPrice, setAskingPrice] = useState<number | ''>(initialAskingPrice || 2750);
   const [moisture, setMoisture] = useState<number>(11.5);
   const [village, setVillage] = useState<string>(initialDistrict ? `${initialDistrict} Farm Cluster` : 'Khanna Farm Cluster, Ludhiana');
 
@@ -327,7 +327,8 @@ export const FarmerPortfolio: React.FC<FarmerPortfolioProps> = ({
                   <input
                     type="number"
                     value={quantity}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    onChange={(e) => setQuantity(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (quantity === '') setQuantity(100); }}
                     className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 outline-none"
                   />
                 </div>
@@ -337,7 +338,8 @@ export const FarmerPortfolio: React.FC<FarmerPortfolioProps> = ({
                   <input
                     type="number"
                     value={askingPrice}
-                    onChange={(e) => setAskingPrice(Number(e.target.value))}
+                    onChange={(e) => setAskingPrice(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (askingPrice === '') setAskingPrice(initialAskingPrice || 2750); }}
                     className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 outline-none"
                   />
                 </div>

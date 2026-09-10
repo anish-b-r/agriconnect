@@ -50,8 +50,8 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
   const t = getTranslation(currentLanguage);
 
   const [selectedCropId, setSelectedCropId] = useState<string>(prefillCrop?.id || 'wheat');
-  const [lotVolumeQuintals, setLotVolumeQuintals] = useState<number>(prefillYield?.estimatedYieldQuintals || 95);
-  const [farmerCostOfProduction, setFarmerCostOfProduction] = useState<number>(
+  const [lotVolumeQuintals, setLotVolumeQuintals] = useState<number | ''>(prefillYield?.estimatedYieldQuintals || 95);
+  const [farmerCostOfProduction, setFarmerCostOfProduction] = useState<number | ''>(
     prefillYield?.costOfProductionPerQuintal || 1589
   );
 
@@ -213,7 +213,8 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
                 <input
                   type="number"
                   value={lotVolumeQuintals}
-                  onChange={(e) => setLotVolumeQuintals(Number(e.target.value))}
+                  onChange={(e) => setLotVolumeQuintals(e.target.value === '' ? '' : Number(e.target.value))}
+                  onBlur={() => { if (lotVolumeQuintals === '') setLotVolumeQuintals(95); }}
                   className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-mono font-bold text-stone-900 focus:border-emerald-600 outline-none"
                 />
               </div>
@@ -225,7 +226,8 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
                 <input
                   type="number"
                   value={farmerCostOfProduction}
-                  onChange={(e) => setFarmerCostOfProduction(Number(e.target.value))}
+                  onChange={(e) => setFarmerCostOfProduction(e.target.value === '' ? '' : Number(e.target.value))}
+                  onBlur={() => { if (farmerCostOfProduction === '') setFarmerCostOfProduction(1589); }}
                   className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-mono font-bold text-stone-900 focus:border-emerald-600 outline-none"
                 />
               </div>

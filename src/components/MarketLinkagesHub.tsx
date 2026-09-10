@@ -64,8 +64,8 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
   // Post new Lot Broadcast Modal
   const [showPostLotModal, setShowPostLotModal] = useState<boolean>(false);
   const [postCropId, setPostCropId] = useState<string>('wheat');
-  const [postQty, setPostQty] = useState<number>(100);
-  const [postAskingPrice, setPostAskingPrice] = useState<number>(2750);
+  const [postQty, setPostQty] = useState<number | ''>(100);
+  const [postAskingPrice, setPostAskingPrice] = useState<number | ''>(2750);
   const [postVillage, setPostVillage] = useState<string>('Khanna, Punjab');
 
   const filteredOrders = buyerOrders.filter((o) => {
@@ -376,7 +376,8 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
                   <input
                     type="number"
                     value={postQty}
-                    onChange={(e) => setPostQty(Number(e.target.value))}
+                    onChange={(e) => setPostQty(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (postQty === '') setPostQty(100); }}
                     className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 outline-none"
                   />
                 </div>
@@ -385,7 +386,8 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
                   <input
                     type="number"
                     value={postAskingPrice}
-                    onChange={(e) => setPostAskingPrice(Number(e.target.value))}
+                    onChange={(e) => setPostAskingPrice(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (postAskingPrice === '') setPostAskingPrice(2750); }}
                     className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-xs font-bold text-stone-900 outline-none"
                   />
                 </div>

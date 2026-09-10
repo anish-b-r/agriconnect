@@ -37,16 +37,16 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
 
   const [selectedCropId, setSelectedCropId] = useState<string>('wheat');
   const [variety, setVariety] = useState<string>('Lokwan Sharbati (Premium Grain)');
-  const [acreage, setAcreage] = useState<number>(5);
+  const [acreage, setAcreage] = useState<number | ''>(5);
   const [sowingDate, setSowingDate] = useState<string>('2026-06-15');
   const [irrigationMethod, setIrrigationMethod] = useState<'Canal' | 'Borewell / Drip' | 'Rainfed' | 'Sprinkler'>('Borewell / Drip');
   
   // Soil conditions
-  const [nitrogen, setNitrogen] = useState<number>(240);
-  const [phosphorus, setPhosphorus] = useState<number>(32);
-  const [potassium, setPotassium] = useState<number>(210);
-  const [soilPh, setSoilPh] = useState<number>(7.2);
-  const [organicCarbon, setOrganicCarbon] = useState<number>(0.75);
+  const [nitrogen, setNitrogen] = useState<number | ''>(240);
+  const [phosphorus, setPhosphorus] = useState<number | ''>(32);
+  const [potassium, setPotassium] = useState<number | ''>(210);
+  const [soilPh, setSoilPh] = useState<number | ''>(7.2);
+  const [organicCarbon, setOrganicCarbon] = useState<number | ''>(0.75);
   const [soilType, setSoilType] = useState<'Alluvial' | 'Black / Regur' | 'Red & Yellow' | 'Laterite' | 'Sandy Loam'>('Black / Regur');
 
   // Weather & pest
@@ -98,14 +98,14 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
     const inputPayload: YieldPredictionInput = {
       cropId: selectedCropId,
       variety,
-      acreage,
+      acreage: Number(acreage) || 5,
       sowingDate,
       irrigationMethod,
-      soilNitrogen: nitrogen,
-      soilPhosphorus: phosphorus,
-      soilPotassium: potassium,
-      soilPh,
-      organicCarbon,
+      soilNitrogen: Number(nitrogen) || 240,
+      soilPhosphorus: Number(phosphorus) || 32,
+      soilPotassium: Number(potassium) || 210,
+      soilPh: Number(soilPh) || 7.2,
+      organicCarbon: Number(organicCarbon) || 0.75,
       soilType,
       weatherRiskFactor: weatherRisk,
       pestIncidence,
@@ -188,7 +188,8 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
                 <input
                   type="number"
                   value={acreage}
-                  onChange={(e) => setAcreage(Number(e.target.value))}
+                  onChange={(e) => setAcreage(e.target.value === '' ? '' : Number(e.target.value))}
+                  onBlur={() => { if (acreage === '') setAcreage(5); }}
                   className="w-full p-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm font-mono font-bold text-stone-900 focus:border-emerald-600 outline-none"
                 />
               </div>
@@ -222,7 +223,8 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
                   <input
                     type="number"
                     value={nitrogen}
-                    onChange={(e) => setNitrogen(Number(e.target.value))}
+                    onChange={(e) => setNitrogen(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (nitrogen === '') setNitrogen(240); }}
                     className="w-full text-center bg-transparent font-black text-emerald-800 outline-none text-base"
                   />
                   <span className="text-[9px] text-stone-400 block mt-0.5">kg/ha</span>
@@ -233,7 +235,8 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
                   <input
                     type="number"
                     value={phosphorus}
-                    onChange={(e) => setPhosphorus(Number(e.target.value))}
+                    onChange={(e) => setPhosphorus(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (phosphorus === '') setPhosphorus(32); }}
                     className="w-full text-center bg-transparent font-black text-emerald-800 outline-none text-base"
                   />
                   <span className="text-[9px] text-stone-400 block mt-0.5">kg/ha</span>
@@ -244,7 +247,8 @@ export const YieldGrowthPredictor: React.FC<YieldGrowthPredictorProps> = ({
                   <input
                     type="number"
                     value={potassium}
-                    onChange={(e) => setPotassium(Number(e.target.value))}
+                    onChange={(e) => setPotassium(e.target.value === '' ? '' : Number(e.target.value))}
+                    onBlur={() => { if (potassium === '') setPotassium(210); }}
                     className="w-full text-center bg-transparent font-black text-emerald-800 outline-none text-base"
                   />
                   <span className="text-[9px] text-stone-400 block mt-0.5">kg/ha</span>
