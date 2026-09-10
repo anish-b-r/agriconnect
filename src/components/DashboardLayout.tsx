@@ -215,27 +215,27 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         <div className="flex-1 flex flex-col min-w-0 w-full overflow-x-hidden">
           
           {/* TOP HEADER BAR */}
-          <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-stone-200/80 px-2.5 sm:px-6 py-2 sm:py-3 flex items-center justify-between gap-1.5 sm:gap-4 w-full min-w-0">
+          <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-stone-200/80 px-4 sm:px-6 py-3 flex items-center justify-between gap-3 sm:gap-6 w-full min-w-0">
             
             {/* Left: Mobile Menu Trigger + Search Bar */}
-            <div className="flex items-center gap-1.5 sm:gap-3 flex-1 min-w-[110px] max-w-xl">
+            <div className="flex items-center gap-2 sm:gap-3 flex-1 sm:flex-initial w-full sm:w-80 md:w-96 max-w-md">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden p-1.5 sm:p-2 rounded-xl text-stone-600 hover:bg-stone-100 cursor-pointer flex-shrink-0"
+                className="lg:hidden p-2 rounded-xl text-stone-600 hover:bg-stone-100 cursor-pointer flex-shrink-0"
               >
                 <Menu className="w-5 h-5" />
               </button>
 
               {/* Search Bar Input */}
-              <div className="relative flex-1 min-w-[70px]">
-                <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-stone-400 absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2" />
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Search for a crop, mandi or location..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}
-                  className="w-full pl-7 sm:pl-9 pr-2 sm:pr-14 py-1.5 sm:py-2 bg-stone-100/80 border border-stone-200/70 rounded-full text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:bg-white transition-all placeholder:text-stone-400 truncate"
+                  className="w-full pl-9 pr-14 py-2 bg-stone-100/80 border border-stone-200/70 rounded-full text-xs font-medium text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:bg-white transition-all placeholder:text-stone-400 truncate"
                 />
                 <span className="hidden sm:inline-flex items-center gap-0.5 absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-stone-400 font-mono bg-white px-1.5 py-0.5 rounded border border-stone-200">
                   Ctrl K
@@ -244,18 +244,17 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             </div>
 
             {/* Right: State Selector, Notifications, Profile Avatar */}
-            <div className="flex items-center gap-1 sm:gap-2.5 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
               
               {/* Location State Selector Dropdown */}
-              <div className="w-20 sm:w-40 md:w-48 flex-shrink-0">
+              <div className="w-28 sm:w-44 md:w-48 flex-shrink-0">
                 <CustomSelect
                   value={selectedState}
                   onChange={(st) => setSelectedState(st)}
                   options={STATES_LIST.map((st) => ({ value: st, label: st }))}
                   icon={MapPin}
-                  dropdownWidth="w-40 sm:w-48"
+                  dropdownWidth="w-48"
                   align="right"
-                  size="sm"
                 />
               </div>
 
@@ -263,10 +262,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               <div className="relative flex-shrink-0">
                 <button
                   onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
-                  className="p-1.5 sm:p-2 rounded-full bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/90 shadow-2xs relative cursor-pointer transition-colors"
+                  className="p-2 rounded-full bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/90 shadow-2xs relative cursor-pointer transition-colors"
                 >
-                  <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                  <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-1 sm:top-1.5 right-1 sm:right-1.5 ring-2 ring-white" />
+                  <Bell className="w-4 h-4" />
+                  <span className="w-2 h-2 rounded-full bg-rose-500 absolute top-1.5 right-1.5 ring-2 ring-white" />
                 </button>
 
                 {/* Notifications Popup */}
@@ -294,9 +293,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               <div className="relative flex-shrink-0">
                 <button
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                  className="flex items-center gap-1 p-1 sm:py-1 sm:px-2 bg-white hover:bg-stone-50 rounded-full border border-stone-200/90 shadow-2xs cursor-pointer transition-colors"
+                  className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 bg-white hover:bg-stone-50 rounded-full border border-stone-200/90 shadow-2xs cursor-pointer transition-colors"
                 >
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#1b4332] text-white flex items-center justify-center font-black text-xs shadow-xs flex-shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-[#1b4332] text-white flex items-center justify-center font-black text-xs shadow-xs flex-shrink-0">
                     {userInitial}
                   </div>
                   <span className="text-xs font-extrabold text-stone-800 font-sans hidden sm:inline">
