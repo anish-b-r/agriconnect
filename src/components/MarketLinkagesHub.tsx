@@ -50,6 +50,7 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
   // Negotiation Modal State
   const [activeNegotiationBuyer, setActiveNegotiationBuyer] = useState<BuyerOrder | null>(null);
   const [negotiationLoading, setNegotiationLoading] = useState<boolean>(false);
+  const [customCounterPrice, setCustomCounterPrice] = useState<number>(0);
   const [negotiationResult, setNegotiationResult] = useState<{
     counterOfferPrice: number;
     dealEvaluation: string;
@@ -79,6 +80,7 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
     setActiveNegotiationBuyer(buyer);
     setNegotiationLoading(true);
     setNegotiationResult(null);
+    setCustomCounterPrice(Math.round(buyer.offeredPricePerQtl * 1.04));
 
     try {
       const response = await fetch('/api/gemini/negotiate', {
@@ -100,25 +102,32 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
       const resData = await response.json();
       if (resData.success && resData.data) {
         setNegotiationResult(resData.data);
+        if (resData.data.counterOfferPrice) {
+          setCustomCounterPrice(resData.data.counterOfferPrice);
+        }
       } else {
+        const calculatedPrice = Math.round(buyer.offeredPricePerQtl * 1.04);
+        setCustomCounterPrice(calculatedPrice);
         setNegotiationResult({
-          counterOfferPrice: Math.round(buyer.offeredPricePerQtl * 1.04),
-          dealEvaluation: `Offer of ₹${buyer.offeredPricePerQtl} is above statutory MSP. Propose counter-offer of ₹${Math.round(buyer.offeredPricePerQtl * 1.04)} based on Grade-A moisture parameters.`,
+          counterOfferPrice: calculatedPrice,
+          dealEvaluation: `Offer of ₹${buyer.offeredPricePerQtl} is above statutory MSP. Propose counter-offer of ₹${calculatedPrice} based on Grade-A moisture parameters.`,
           leveragePoints: [
             'Moisture content is verified at 11.2% (below 12% standard threshold).',
             'Direct farmgate loading saves buyer ₹45/Qtl in mandi commission.',
             'Quality certified under AgriConnect FairScore Inspection Protocol.'
           ],
-          counterMessageScript: `Dear ${buyer.buyerName}, we appreciate your offer of ₹${buyer.offeredPricePerQtl}/Qtl. In view of our Grade-A lab moisture score (11.2%) and direct farmgate collection, our counter-offer is ₹${Math.round(buyer.offeredPricePerQtl * 1.04)}/Qtl.`,
+          counterMessageScript: `Dear ${buyer.buyerName}, we appreciate your offer of ₹${buyer.offeredPricePerQtl}/Qtl. In view of our Grade-A lab moisture score (11.2%) and direct farmgate collection, our counter-offer is ₹${calculatedPrice}/Qtl.`,
           fallbackWalkawayPrice: fairFloorPrice,
         });
       }
     } catch (e) {
+      const calculatedPrice = Math.round(buyer.offeredPricePerQtl * 1.04);
+      setCustomCounterPrice(calculatedPrice);
       setNegotiationResult({
-        counterOfferPrice: Math.round(buyer.offeredPricePerQtl * 1.04),
+        counterOfferPrice: calculatedPrice,
         dealEvaluation: 'Counter-proposal calculated using FairScore Grade-A premium rules.',
         leveragePoints: ['Lab verified low moisture', 'Direct farmgate dispatch'],
-        counterMessageScript: `Offer of ₹${Math.round(buyer.offeredPricePerQtl * 1.04)}/Qtl submitted under FairScore terms.`,
+        counterMessageScript: `Offer of ₹${calculatedPrice}/Qtl submitted under FairScore terms.`,
         fallbackWalkawayPrice: fairFloorPrice,
       });
     } finally {
@@ -455,32 +464,111 @@ export const MarketLinkagesHub: React.FC<MarketLinkagesHubProps> = ({
               </div>
             ) : negotiationResult ? (
               <div className="space-y-4 text-xs">
-                <div className="p-4 bg-emerald-50/60 rounded-xl border border-emerald-200/80 space-y-2">
-                  <span className="font-bold text-[#1b4332] block font-mono">Recommended Counter Price</span>
-                  <div className="text-2xl font-black text-stone-950 font-mono">
-                    ₹{negotiationResult.counterOfferPrice}/Qtl
+                {/* Editable Counter Price Card */}
+                <div className="p-4 bg-emerald-50/70 rounded-2xl border border-emerald-200/90 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-[#1b4332] font-mono text-xs uppercase tracking-wider">
+                      Your Counter Price (₹/Quintal)
+                    </span>
+                    <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2.5 py-0.5 rounded-full">
+                      AI Suggested: ₹{negotiationResult.counterOfferPrice}
+                    </span>
                   </div>
-                  <p className="text-stone-700 leading-relaxed">{negotiationResult.dealEvaluation}</p>
+
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex-1">
+                      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-lg font-black text-stone-600 font-mono">₹</span>
+                      <input
+                        type="number"
+                        value={customCounterPrice || ''}
+                        onChange={(e) => setCustomCounterPrice(Math.max(0, parseInt(e.target.value) || 0))}
+                        className="w-full pl-8 pr-4 py-2.5 bg-white border border-emerald-300 rounded-xl text-xl font-black text-stone-900 font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-inner"
+                        placeholder="Enter counter price..."
+                      />
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setCustomCounterPrice((prev) => Math.max(100, prev - 25))}
+                        className="w-10 h-10 bg-white hover:bg-stone-100 text-stone-800 font-black text-base border border-stone-300 rounded-xl flex items-center justify-center transition-colors cursor-pointer shadow-xs active:scale-95"
+                        title="Decrease by ₹25"
+                      >
+                        -
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCustomCounterPrice((prev) => prev + 25)}
+                        className="w-10 h-10 bg-white hover:bg-stone-100 text-stone-800 font-black text-base border border-stone-300 rounded-xl flex items-center justify-center transition-colors cursor-pointer shadow-xs active:scale-95"
+                        title="Increase by ₹25"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Quick Preset Chips */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span className="text-[10px] text-stone-500 font-semibold mr-1">Quick Presets:</span>
+                    <button
+                      type="button"
+                      onClick={() => setCustomCounterPrice(activeNegotiationBuyer.offeredPricePerQtl)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                        customCounterPrice === activeNegotiationBuyer.offeredPricePerQtl
+                          ? 'bg-[#1b4332] text-white border-[#1b4332]'
+                          : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+                      }`}
+                    >
+                      Buyer Offer (₹{activeNegotiationBuyer.offeredPricePerQtl})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCustomCounterPrice(negotiationResult.counterOfferPrice)}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer border ${
+                        customCounterPrice === negotiationResult.counterOfferPrice
+                          ? 'bg-[#1b4332] text-white border-[#1b4332]'
+                          : 'bg-white text-stone-700 border-stone-200 hover:bg-stone-50'
+                      }`}
+                    >
+                      AI Recommended (₹{negotiationResult.counterOfferPrice})
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCustomCounterPrice(Math.round(activeNegotiationBuyer.offeredPricePerQtl * 1.05))}
+                      className="px-2.5 py-1 bg-white hover:bg-stone-50 text-stone-700 border border-stone-200 rounded-lg text-[11px] font-bold transition-all cursor-pointer"
+                    >
+                      +5% Premium (₹{Math.round(activeNegotiationBuyer.offeredPricePerQtl * 1.05)})
+                    </button>
+                  </div>
+
+                  <p className="text-stone-700 text-[11px] leading-relaxed border-t border-emerald-200/60 pt-2">
+                    {negotiationResult.dealEvaluation}
+                  </p>
                 </div>
 
-                <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-                  <span className="font-bold text-amber-800 block mb-1 font-mono">Counter Script to Buyer:</span>
-                  <p className="text-stone-700 italic">"{negotiationResult.counterMessageScript}"</p>
+                {/* Live Counter Script */}
+                <div className="p-3.5 bg-stone-50 rounded-xl border border-stone-200/90 space-y-1">
+                  <span className="font-extrabold text-amber-900 block font-mono text-[11px] uppercase tracking-wide">
+                    Live Counter Script to Buyer:
+                  </span>
+                  <p className="text-stone-700 italic text-xs leading-relaxed">
+                    "Dear {activeNegotiationBuyer.companyName || activeNegotiationBuyer.buyerName}, thank you for your bid of ₹{activeNegotiationBuyer.offeredPricePerQtl}/Qtl. Our lot of {farmerLotQuantity} Qtl {activeNegotiationBuyer.cropName} meets Grade-A export standards. Considering direct farmgate supply and mandi parity, our counter-offer is ₹{customCounterPrice || negotiationResult.counterOfferPrice}/Qtl with immediate dispatch."
+                  </p>
                 </div>
 
-                <div className="flex items-center gap-3 pt-2">
+                {/* Responsive Action Buttons */}
+                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
                   <button
                     onClick={() => handleAcceptDeal(activeNegotiationBuyer, activeNegotiationBuyer.offeredPricePerQtl)}
-                    className="flex-1 py-3 bg-[#1b4332] text-white font-extrabold rounded-xl text-xs hover:bg-[#143527] transition-colors"
+                    className="w-full sm:w-1/2 py-3 px-4 bg-[#1b4332] text-white font-extrabold rounded-xl text-xs hover:bg-[#143527] transition-all cursor-pointer shadow-md active:scale-98"
                   >
                     Accept Deal (₹{activeNegotiationBuyer.offeredPricePerQtl}/Qtl)
                   </button>
 
                   <button
-                    onClick={() => handleAcceptDeal(activeNegotiationBuyer, negotiationResult.counterOfferPrice)}
-                    className="flex-1 py-3 bg-stone-100 text-stone-900 font-bold rounded-xl text-xs hover:bg-stone-200 border border-stone-300 transition-colors"
+                    onClick={() => handleAcceptDeal(activeNegotiationBuyer, customCounterPrice || negotiationResult.counterOfferPrice)}
+                    className="w-full sm:w-1/2 py-3 px-4 bg-stone-100 text-stone-900 font-bold rounded-xl text-xs hover:bg-stone-200 border border-stone-300 transition-all cursor-pointer active:scale-98"
                   >
-                    Send Counter Offer (₹{negotiationResult.counterOfferPrice}/Qtl)
+                    Send Counter Offer (₹{customCounterPrice || negotiationResult.counterOfferPrice}/Qtl)
                   </button>
                 </div>
               </div>
