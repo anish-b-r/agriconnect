@@ -80,6 +80,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const userName = currentUser?.name?.split(' ')[0] || 'Sardar';
   const userInitial = userName.charAt(0).toUpperCase();
 
+  const isAdmin = currentUser?.role === 'admin' || currentUser?.name?.toLowerCase() === 'admin' || currentUser?.name?.toLowerCase().includes('admin');
+  const visibleNavItems = NAV_ITEMS.filter((item) => {
+    if (item.id === 'database' || item.id === 'sihpitch') {
+      return isAdmin;
+    }
+    return true;
+  });
+
   return (
     <div className="min-h-screen bg-[#f4f6f4] text-stone-900 flex flex-col font-sans selection:bg-emerald-500 selection:text-white">
       {/* Container Wrapper */}
@@ -127,7 +135,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
             {/* Navigation Menu Links */}
             <nav className="space-y-1">
-              {NAV_ITEMS.map((item) => {
+              {visibleNavItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
                 return (

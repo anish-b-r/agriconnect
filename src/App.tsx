@@ -98,11 +98,20 @@ export default function App() {
     setTimeout(() => setUserNotification(null), 4000);
   };
 
+  const isAdmin = currentUser?.role === 'admin' || currentUser?.name?.toLowerCase() === 'admin' || currentUser?.name?.toLowerCase().includes('admin');
+
+  React.useEffect(() => {
+    if (!isAdmin && (activeTab === 'database' || activeTab === 'sihpitch')) {
+      setActiveTab('fairscore');
+    }
+  }, [currentUser, activeTab, isAdmin]);
+
   const handleLogout = () => {
     setCurrentUser(null);
     try {
       localStorage.removeItem('agriconnect_user');
     } catch (e) {}
+    setActiveTab('fairscore');
     setUserNotification('You have logged out successfully.');
     setTimeout(() => setUserNotification(null), 4000);
   };

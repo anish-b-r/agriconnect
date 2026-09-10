@@ -16,6 +16,16 @@ import { MongoUser } from '../types';
 
 export const DEMO_PROFILES: MongoUser[] = [
   {
+    id: 'usr-admin-01',
+    name: 'Admin',
+    phone: '+91 99999 00000',
+    role: 'admin',
+    district: 'System HQ',
+    taluk: 'Headquarters',
+    verified: true,
+    email: 'admin@krishisetu.in',
+  },
+  {
     id: 'usr-f-01',
     name: 'Sardar Gurpreet Singh',
     phone: '+91 98765 43210',
@@ -86,13 +96,16 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     const cleanPhone = phoneNumber.trim() || '9876543210';
     const cleanName = customName.trim() || (selectedRole === 'farmer' ? 'Kisan Member' : 'Agri Buyer');
     
+    const isAdminUser = cleanName.toLowerCase() === 'admin' || cleanName.toLowerCase().includes('admin');
+    const roleToAssign = isAdminUser ? 'admin' : selectedRole;
+    
     const customUser: MongoUser = {
       id: `usr-${Date.now().toString().slice(-6)}`,
       name: cleanName,
       phone: cleanPhone.startsWith('+91') ? cleanPhone : `+91 ${cleanPhone}`,
-      role: selectedRole,
-      district: selectedRole === 'farmer' ? 'Ludhiana' : 'Delhi NCR',
-      taluk: selectedRole === 'farmer' ? 'Khanna' : 'Azadpur',
+      role: roleToAssign,
+      district: isAdminUser ? 'System HQ' : (selectedRole === 'farmer' ? 'Ludhiana' : 'Delhi NCR'),
+      taluk: isAdminUser ? 'Headquarters' : (selectedRole === 'farmer' ? 'Khanna' : 'Azadpur'),
       verified: true,
       email: `${cleanName.toLowerCase().replace(/\s+/g, '.')}@agriconnect.in`,
     };

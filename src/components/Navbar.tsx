@@ -402,6 +402,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const t = VERNACULAR_TRANSLATIONS[currentLanguage] || VERNACULAR_TRANSLATIONS['en'];
   const navLabels = getNavLabels(currentLanguage);
+  const isAdmin = currentUser?.role === 'admin' || currentUser?.name?.toLowerCase() === 'admin' || currentUser?.name?.toLowerCase().includes('admin');
   const [showMandiBulletinModal, setShowMandiBulletinModal] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
@@ -784,29 +785,33 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span>{navLabels.advisory}</span>
             </button>
 
-            <button
-              onClick={() => setActiveTab('database')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                activeTab === 'database'
-                  ? 'bg-emerald-500 text-stone-950 shadow-md font-bold'
-                  : 'text-stone-300 hover:text-white hover:bg-emerald-900/40'
-              }`}
-            >
-              <Database className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{navLabels.databaseShort || 'DB'}</span>
-            </button>
+            {isAdmin && (
+              <>
+                <button
+                  onClick={() => setActiveTab('database')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                    activeTab === 'database'
+                      ? 'bg-emerald-500 text-stone-950 shadow-md font-bold'
+                      : 'text-stone-300 hover:text-white hover:bg-emerald-900/40'
+                  }`}
+                >
+                  <Database className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>{navLabels.databaseShort || 'DB'}</span>
+                </button>
 
-            <button
-              onClick={() => setActiveTab('sihpitch')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                activeTab === 'sihpitch'
-                  ? 'bg-amber-500 text-stone-950 shadow-md font-black'
-                  : 'text-amber-300 hover:text-white hover:bg-amber-500/20'
-              }`}
-            >
-              <Trophy className="w-3.5 h-3.5 text-amber-400" />
-              <span>{navLabels.pitchShort || 'Pitch'}</span>
-            </button>
+                <button
+                  onClick={() => setActiveTab('sihpitch')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    activeTab === 'sihpitch'
+                      ? 'bg-amber-500 text-stone-950 shadow-md font-black'
+                      : 'text-amber-300 hover:text-white hover:bg-amber-500/20'
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                  <span>{navLabels.pitchShort || 'Pitch'}</span>
+                </button>
+              </>
+            )}
           </nav>
 
           {/* Right Action Controls */}
@@ -969,24 +974,28 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Bell className="w-3.5 h-3.5 text-amber-400" />
               <span>{navLabels.advisoryShort || navLabels.advisory}</span>
             </button>
-            <button
-              onClick={() => setActiveTab('database')}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold ${
-                activeTab === 'database' ? 'bg-emerald-500 text-stone-950 font-bold' : 'text-stone-300 bg-emerald-950/60 border border-emerald-500/20'
-              }`}
-            >
-              <Database className="w-3.5 h-3.5 text-emerald-400" />
-              <span>{navLabels.databaseShort || 'DB'}</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('sihpitch')}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold ${
-                activeTab === 'sihpitch' ? 'bg-amber-500 text-stone-950 font-black' : 'text-amber-300 bg-emerald-950/60 border border-amber-500/30'
-              }`}
-            >
-              <Trophy className="w-3.5 h-3.5" />
-              <span>{navLabels.pitchShort || 'Pitch'}</span>
-            </button>
+            {isAdmin && (
+              <>
+                <button
+                  onClick={() => setActiveTab('database')}
+                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold ${
+                    activeTab === 'database' ? 'bg-emerald-500 text-stone-950 font-bold' : 'text-stone-300 bg-emerald-950/60 border border-emerald-500/20'
+                  }`}
+                >
+                  <Database className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>{navLabels.databaseShort || 'DB'}</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('sihpitch')}
+                  className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold ${
+                    activeTab === 'sihpitch' ? 'bg-amber-500 text-stone-950 font-black' : 'text-amber-300 bg-emerald-950/60 border border-amber-500/30'
+                  }`}
+                >
+                  <Trophy className="w-3.5 h-3.5" />
+                  <span>{navLabels.pitchShort || 'Pitch'}</span>
+                </button>
+              </>
+            )}
           </ArrowScrollContainer>
         </div>
       </div>
