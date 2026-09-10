@@ -12,8 +12,7 @@ import {
   Sparkles,
   Info,
   CheckCircle2,
-  AlertTriangle,
-  Play
+  AlertTriangle
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -48,8 +47,8 @@ interface CropOption {
   fairScore: number;
   location: string;
   yesterdayDiff: number;
-  trendData: { date: string; price: number }[];
   higherThanBaseline: boolean;
+  trendData: { date: string; price: number }[];
 }
 
 const DASHBOARD_CROPS: CropOption[] = [
@@ -58,94 +57,94 @@ const DASHBOARD_CROPS: CropOption[] = [
     name: 'Wheat',
     varietyName: 'Wheat (Sharbati)',
     modalPrice: 2850,
-    msp: 2425,
-    middlemanCommission: 265,
-    fairScore: 88,
-    location: 'Khanna, Ludhiana',
+    msp: 2275,
+    middlemanCommission: 240,
+    fairScore: 94,
+    location: 'Ludhiana, Punjab',
     yesterdayDiff: 35,
     higherThanBaseline: true,
     trendData: [
-      { date: 'Aug 28', price: 2000 },
-      { date: 'Aug 31', price: 2200 },
-      { date: 'Sep 3', price: 2250 },
-      { date: 'Sep 6', price: 2600 },
+      { date: 'Aug 28', price: 2780 },
+      { date: 'Aug 31', price: 2800 },
+      { date: 'Sep 3', price: 2820 },
+      { date: 'Sep 6', price: 2840 },
       { date: 'Sep 9', price: 2850 },
     ],
   },
   {
     id: 'paddy',
     name: 'Paddy',
-    varietyName: 'Paddy (Basmati 1509)',
-    modalPrice: 2320,
-    msp: 2300,
-    middlemanCommission: 210,
-    fairScore: 84,
+    varietyName: 'Basmati Paddy 1121',
+    modalPrice: 4200,
+    msp: 3835,
+    middlemanCommission: 350,
+    fairScore: 91,
     location: 'Karnal, Haryana',
-    yesterdayDiff: 20,
+    yesterdayDiff: 60,
     higherThanBaseline: true,
     trendData: [
-      { date: 'Aug 28', price: 2100 },
-      { date: 'Aug 31', price: 2150 },
-      { date: 'Sep 3', price: 2200 },
-      { date: 'Sep 6', price: 2280 },
-      { date: 'Sep 9', price: 2320 },
+      { date: 'Aug 28', price: 4050 },
+      { date: 'Aug 31', price: 4100 },
+      { date: 'Sep 3', price: 4150 },
+      { date: 'Sep 6', price: 4180 },
+      { date: 'Sep 9', price: 4200 },
     ],
   },
   {
     id: 'tomato',
     name: 'Tomato',
-    varietyName: 'Tomato (Hybrid / Abhinav)',
-    modalPrice: 2180,
-    msp: 1800,
-    middlemanCommission: 290,
+    varietyName: 'Tomato (Hybrid)',
+    modalPrice: 1950,
+    msp: 1600,
+    middlemanCommission: 220,
     fairScore: 82,
-    location: 'Mandya, Karnataka',
-    yesterdayDiff: -15,
+    location: 'Kolar, Karnataka',
+    yesterdayDiff: -40,
     higherThanBaseline: true,
     trendData: [
-      { date: 'Aug 28', price: 2400 },
-      { date: 'Aug 31', price: 2300 },
-      { date: 'Sep 3', price: 2250 },
-      { date: 'Sep 6', price: 2200 },
-      { date: 'Sep 9', price: 2180 },
+      { date: 'Aug 28', price: 2100 },
+      { date: 'Aug 31', price: 2050 },
+      { date: 'Sep 3', price: 2000 },
+      { date: 'Sep 6', price: 1980 },
+      { date: 'Sep 9', price: 1950 },
     ],
   },
   {
     id: 'onion',
     name: 'Onion',
-    varietyName: 'Onion (Lasalgaon Red)',
-    modalPrice: 2280,
-    msp: 1950,
-    middlemanCommission: 310,
-    fairScore: 86,
-    location: 'Lasalgaon, Nashik',
-    yesterdayDiff: 40,
+    varietyName: 'Onion (Red Nashik)',
+    modalPrice: 2650,
+    msp: 2400,
+    middlemanCommission: 290,
+    fairScore: 88,
+    location: 'Lasalgaon, Maharashtra',
+    yesterdayDiff: 75,
     higherThanBaseline: true,
     trendData: [
-      { date: 'Aug 28', price: 1950 },
-      { date: 'Aug 31', price: 2050 },
-      { date: 'Sep 3', price: 2150 },
-      { date: 'Sep 6', price: 2220 },
-      { date: 'Sep 9', price: 2280 },
+      { date: 'Aug 28', price: 2450 },
+      { date: 'Aug 31', price: 2500 },
+      { date: 'Sep 3', price: 2550 },
+      { date: 'Sep 6', price: 2600 },
+      { date: 'Sep 9', price: 2650 },
     ],
   },
   {
     id: 'soybean',
     name: 'Soybean',
-    varietyName: 'Soybean (JS 9560)',
-    modalPrice: 5120,
-    msp: 4892,
-    middlemanCommission: 450,
-    fairScore: 91,
-    location: 'Indore, MP',
-    yesterdayDiff: 80,
+    varietyName: 'Soybean (Yellow)',
+    modalPrice: 4680,
+    msp: 4600,
+    middlemanCommission: 380,
+    fairScore: 86,
+    location: 'Indore, Madhya Pradesh',
+    yesterdayDiff: 20,
     higherThanBaseline: true,
     trendData: [
-      { date: 'Aug 28', price: 4800 },
-      { date: 'Aug 31', price: 4920 },
-      { date: 'Sep 3', price: 5000 },
-      { date: 'Sep 6', price: 5080 },
-      { date: 'Sep 9', price: 5120 },
+      { date: 'Aug 28', price: 4600 },
+      { date: 'Aug 31', price: 4620 },
+      { date: 'Sep 3', price: 4640 },
+      { date: 'Sep 6', price: 4660 },
+      { date: 'Sep 9', price: 4680 },
     ],
   },
   {
@@ -199,7 +198,7 @@ const DASHBOARD_CROPS: CropOption[] = [
     higherThanBaseline: true,
     trendData: [
       { date: 'Aug 28', price: 6500 },
-      { date: 'Aug 31', price: 6620 },
+      { date: 'Aug 31', price: 6600 },
       { date: 'Sep 3', price: 6700 },
       { date: 'Sep 6', price: 6800 },
       { date: 'Sep 9', price: 6850 },
@@ -213,7 +212,7 @@ const getCropLocalizedName = (cropId: string, cropName: string, lang: Language) 
     paddy: { en: 'Paddy', hi: 'धान', pa: 'ਝੋਨਾ', mr: 'भात', te: 'వరి', ta: 'நெல்', kn: 'ಬತ್ತ', gu: 'ડાંગર', bn: 'ধান' },
     tomato: { en: 'Tomato', hi: 'टमाटर', pa: 'ਟਮਾਟਰ', mr: 'टोमॅटो', te: 'టమాటో', ta: 'தக்காளி', kn: 'ಟೊಮೆಟೊ', gu: 'ટામેટા', bn: 'টমেটো' },
     onion: { en: 'Onion', hi: 'प्याज', pa: 'ਪਿਆਜ਼', mr: 'कांदा', te: 'ఉల్లిపాయ', ta: 'வெங்காயம்', kn: 'ಈರುಳ್ಳಿ', gu: 'ડુંગળી', bn: 'পেঁয়াজ' },
-    soybean: { en: 'Soybean', hi: 'सोयाबीन', pa: 'ਸੋਇਆਬੀਨ', mr: 'सोयाबीन', te: 'సోయాబీన్', ta: 'சோயாபீன்', kn: 'ಸೋಯಾಬೀನ್', gu: 'સોયાબીન', bn: 'সয়াবিন' },
+    soybean: { en: 'Soybean', hi: 'सोयाबीन', pa: 'ਸੋਇਆਬੀਨ', mr: 'सोयाबीन', te: 'సోయాబీన్', ta: 'சோயாபீன்', kn: 'ಸೋಯಾಬೀನ್', gu: 'સોયાબીನ್', bn: 'সয়াবিন' },
     mustard: { en: 'Mustard', hi: 'सरसों', pa: 'ਸਰ੍ਹੋਂ', mr: 'मोहरी', te: 'ఆవాలు', ta: 'கடுகு', kn: 'ಸಾಸಿವೆ', gu: 'રાઈ', bn: 'সরষে' },
     cotton: { en: 'Cotton', hi: 'कपास', pa: 'ਕਪਾਹ', mr: 'कापूस', te: 'పత్తి', ta: 'பருத்தி', kn: 'ಹತ್ತಿ', gu: 'કપાસ', bn: 'তুলা' },
     groundnut: { en: 'Groundnut', hi: 'मूंगफली', pa: 'ਮੂੰਗਫਲੀ', mr: 'भुईमूग', te: 'వేరుశనగ', ta: 'நிலக்கடலை', kn: 'ಕಡಲೆಕಾಯಿ', gu: 'મગફળી', bn: 'বাদામ' },
@@ -234,19 +233,10 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
   const [showCallCenterModal, setShowCallCenterModal] = useState<boolean>(false);
   const [showBulletinModal, setShowBulletinModal] = useState<boolean>(false);
   const [showAllCropsModal, setShowAllCropsModal] = useState<boolean>(false);
-  const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
 
   const activeCrop = useMemo(() => {
     return DASHBOARD_CROPS.find((c) => c.id === selectedCropId) || DASHBOARD_CROPS[0];
   }, [selectedCropId]);
-
-  const handleAudioPlay = () => {
-    setIsPlayingAudio(true);
-    if (onOpenAdvisory) {
-      onOpenAdvisory();
-    }
-    setTimeout(() => setIsPlayingAudio(false), 3000);
-  };
 
   return (
     <div className="space-y-6 animate-fadeIn pb-8">
@@ -460,30 +450,6 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
               </div>
             </div>
           </div>
-
-          {/* Action Audio Button */}
-          <button
-            onClick={handleAudioPlay}
-            className="w-full bg-[#1b4332] hover:bg-[#143527] text-white font-extrabold text-xs py-3 px-4 rounded-full flex items-center justify-center gap-2.5 cursor-pointer shadow-md transition-all active:scale-[0.99]"
-          >
-            {isPlayingAudio ? (
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                {t.playingVoiceAdvisory || 'Playing Vernacular Voice Advisory...'}
-              </span>
-            ) : (
-              <>
-                <Play className="w-4 h-4 fill-current text-emerald-400" />
-                <span>{t.listenRateUpdate || t.listenAudioBtn || 'Listen Rate Update'}</span>
-                <span className="flex items-center gap-1 ml-1 opacity-80">
-                  <span className="w-0.5 h-3 bg-emerald-400 wave-bar-1" />
-                  <span className="w-0.5 h-4 bg-emerald-400 wave-bar-2" />
-                  <span className="w-0.5 h-2 bg-emerald-400 wave-bar-3" />
-                  <span className="w-0.5 h-3.5 bg-emerald-400 wave-bar-4" />
-                </span>
-              </>
-            )}
-          </button>
         </div>
 
         {/* CARD 3: SELL DIRECTLY (3 cols on lg) */}
