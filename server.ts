@@ -65,7 +65,7 @@ async function generateGeminiContentWithFallback(
   options?: { temperature?: number; responseMimeType?: string }
 ): Promise<string | null> {
   // Ordered by preference: primary flash -> fast high-capacity lite -> latest alias
-  const modelsToTry = ["gemini-3.8-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+  const modelsToTry = ["gemini-3.6-flash", "gemini-1.5-flash", "gemini-2.5-flash"];
   let lastError: any = null;
 
   for (const model of modelsToTry) {
