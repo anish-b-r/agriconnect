@@ -117,6 +117,31 @@ export interface TranslationDictionary {
   yieldPredictionTitle?: string;
   yieldPredictionSub?: string;
 
+  // Extended UI Keys
+  rightPricesStrongerHarvests?: string;
+  growingBrighterTomorrow?: string;
+  fairMarketsStrongerIndia?: string;
+  todaysFairRateSub?: string;
+  vsYesterday?: string;
+  listenRateUpdate?: string;
+  playingVoiceAdvisory?: string;
+  moreSupport?: string;
+  supportDesc?: string;
+  searchPlaceholder?: string;
+  selectLanguageModalTitle?: string;
+  selectLanguageModalSub?: string;
+  nineLanguagesSupported?: string;
+  doneBtn?: string;
+  empoweringFarmers?: string;
+  support?: string;
+  settings?: string;
+  databaseHub?: string;
+  sihPitch?: string;
+  apmcMarketBulletin?: string;
+  viewBulletinPoints?: string;
+  allApmcMandiCrops?: string;
+  liveNotifications?: string;
+
   [key: string]: any;
 }
 
@@ -906,5 +931,19 @@ export const APP_TRANSLATIONS: Record<Language, TranslationDictionary> = {
 };
 
 export const getTranslation = (lang: Language): TranslationDictionary => {
-  return APP_TRANSLATIONS[lang] || APP_TRANSLATIONS['en'];
+  const dict = APP_TRANSLATIONS[lang] || APP_TRANSLATIONS['en'];
+  const fallback = APP_TRANSLATIONS['en'];
+  return new Proxy(dict, {
+    get(target, prop) {
+      if (typeof prop !== 'string') return undefined;
+      const key = prop as keyof TranslationDictionary;
+      if (key in target && target[key] !== undefined && target[key] !== '') {
+        return target[key];
+      }
+      if (key in fallback && fallback[key] !== undefined && fallback[key] !== '') {
+        return fallback[key];
+      }
+      return String(prop);
+    }
+  });
 };

@@ -30,6 +30,7 @@ import { NavTabType } from './Navbar';
 import { Language, MongoUser } from '../types';
 import { DEMO_PROFILES } from './AuthModal';
 import { CustomSelect } from './CustomSelect';
+import { getTranslation } from '../utils/translations';
 
 interface DashboardLayoutProps {
   activeTab: NavTabType;
@@ -84,12 +85,26 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   selectedState,
   setSelectedState,
 }) => {
+  const t = getTranslation(currentLanguage);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const NAV_ITEMS_TRANSLATED: Record<NavTabType, string> = {
+    fairscore: t.priceDiscovery || 'FairScore',
+    yield: t.yieldPredictor || 'Yield AI',
+    price: t.fairBaselineTitle ? t.fairBaselineTitle.split('&')[0].trim() : 'Fair Price Engine',
+    linkages: t.marketLinkages || 'Buyer Market',
+    portfolio: t.myFarmPortfolio || 'My Lots',
+    mandi: t.mandiAnalytics || 'Market Trends',
+    weather: t.weatherAlerts || 'Weather & Alerts',
+    advisory: t.aiAdvisory || 'Kisan Advisory',
+    database: t.databaseHub || 'Database Hub',
+    sihpitch: t.sihPitch || 'SIH Demo Pitch',
+  };
 
   const userName = currentUser?.name?.split(' ')[0] || 'Sardar';
   const userInitial = userName.charAt(0).toUpperCase();
@@ -166,7 +181,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                     }`}
                   >
                     <Icon className={`w-4 h-4 ${isActive ? 'text-[#1b4332]' : 'text-stone-400'}`} />
-                    <span>{item.label}</span>
+                    <span>{NAV_ITEMS_TRANSLATED[item.id] || item.label}</span>
                   </button>
                 );
               })}
@@ -185,7 +200,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:bg-stone-100/80 hover:text-stone-900 cursor-pointer"
               >
                 <Headphones className="w-4 h-4 text-stone-400" />
-                <span>Support</span>
+                <span>{t.support || 'Support'}</span>
               </button>
 
               <button
@@ -196,7 +211,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 className="w-full flex items-center gap-3 px-3.5 py-2 rounded-xl text-xs font-bold text-stone-600 hover:bg-stone-100/80 hover:text-stone-900 cursor-pointer"
               >
                 <Settings className="w-4 h-4 text-stone-400" />
-                <span>Settings</span>
+                <span>{t.settings || 'Settings'}</span>
               </button>
             </div>
 
@@ -211,7 +226,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               
               <div className="relative z-10 space-y-2">
                 <h4 className="text-sm font-extrabold font-display leading-tight text-stone-50 max-w-[130px]">
-                  Empowering Farmers, Every Day.
+                  {t.empoweringFarmers || 'Empowering Farmers, Every Day.'}
                 </h4>
                 
                 <button 
@@ -245,7 +260,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  placeholder="Search for a crop, mandi or location..."
+                  placeholder={t.searchPlaceholder || 'Search for a crop, mandi or location...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchOpen(true)}

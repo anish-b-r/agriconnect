@@ -26,6 +26,7 @@ import {
 } from 'recharts';
 import { Language } from '../types';
 import { CropIcon } from './CropIcons';
+import { getTranslation } from '../utils/translations';
 
 interface FairScoreInsightsProps {
   currentLanguage?: Language;
@@ -207,11 +208,14 @@ const DASHBOARD_CROPS: CropOption[] = [
 ];
 
 export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
+  currentLanguage = 'en',
   onNavigateToListing,
   onNavigateToMarket,
   onOpenAdvisory,
   selectedState = 'Punjab',
 }) => {
+  const lang: Language = (currentLanguage as Language) || 'en';
+  const t = getTranslation(lang);
   const [selectedCropId, setSelectedCropId] = useState<string>('wheat');
   const [showCallCenterModal, setShowCallCenterModal] = useState<boolean>(false);
   const [showBulletinModal, setShowBulletinModal] = useState<boolean>(false);
@@ -239,11 +243,10 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             FAIRSCORE
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.1] font-display mb-2">
-            Right Prices <br />
-            Stronger Harvests
+            {t.rightPricesStrongerHarvests || 'Right Prices Stronger Harvests'}
           </h1>
           <p className="text-sm text-stone-500 max-w-xl font-normal leading-relaxed">
-            Check real mandi rates, compare with government benchmarks, and sell directly to verified buyers.
+            {t.simpleGuideSubtitle || 'Check real mandi rates, compare with government benchmarks, and sell directly to verified buyers.'}
           </p>
         </div>
 
@@ -260,14 +263,14 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
           <div className="relative z-10 p-5 flex flex-col justify-between h-full">
             <div>
               <h3 className="text-xl font-extrabold text-white leading-snug drop-shadow-md font-display max-w-[200px]">
-                Growing a brighter tomorrow
+                {t.growingBrighterTomorrow || 'Growing a brighter tomorrow'}
               </h3>
               <div className="w-10 h-1 bg-emerald-400 rounded-full mt-2" />
             </div>
 
             <div className="self-end">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-stone-800 bg-white/95 backdrop-blur-md border border-stone-200 px-3 py-1 rounded-full shadow-sm">
-                <span>Fair markets for a stronger India.</span>
+                <span>{t.fairMarketsStrongerIndia || 'Fair markets for a stronger India.'}</span>
               </span>
             </div>
           </div>
@@ -286,10 +289,10 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
               </div>
               <div>
                 <h3 className="text-base font-extrabold text-stone-900 font-display leading-tight">
-                  Select Crop
+                  {t.step1ChooseCrop || 'Select Crop'}
                 </h3>
                 <p className="text-xs text-stone-500 font-normal">
-                  Choose a crop to view live mandi rates
+                  {t.step1Help || 'Choose a crop to view live mandi rates'}
                 </p>
               </div>
             </div>
@@ -324,13 +327,13 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
           <div className="pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500 mt-2">
             <span className="flex items-center gap-1.5 font-medium">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Live rates from APMC mandis
+              {t.freshDailyMandi || 'Live rates from APMC mandis'}
             </span>
             <button 
               onClick={() => setShowAllCropsModal(true)}
               className="font-bold text-[#1b4332] hover:underline cursor-pointer flex items-center gap-1 text-xs"
             >
-              View all crops <ArrowRight className="w-3.5 h-3.5" />
+              {t.viewAll || 'View all crops'} <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -345,17 +348,17 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
                 </div>
                 <div>
                   <h3 className="text-base font-extrabold text-stone-900 font-display leading-tight">
-                    Today's Fair Rate
+                    {t.step2FairPrice || "Today's Fair Rate"}
                   </h3>
                   <p className="text-xs text-stone-500 font-normal">
-                    Live mandi rate and government benchmarks
+                    {t.todaysFairRateSub || 'Live mandi rate and government benchmarks'}
                   </p>
                 </div>
               </div>
 
               <div className="bg-white border border-stone-200/90 text-stone-900 text-[11px] font-extrabold px-3 py-1 rounded-full flex items-center gap-1.5 flex-shrink-0 shadow-2xs font-mono">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#1b4332]" />
-                <span>FairScore <strong className="text-[#1b4332]">88/100</strong></span>
+                <span>{t.fairScoreIndex || 'FairScore'} <strong className="text-[#1b4332]">88/100</strong></span>
               </div>
             </div>
 
@@ -378,13 +381,13 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
                 ₹{activeCrop.modalPrice.toLocaleString('en-IN')}
               </span>
               <span className="text-xs text-stone-500 font-bold font-mono">
-                / Quintal (100 kg)
+                {t.quintalUnit || '/ Quintal (100 kg)'}
               </span>
               <span className="sm:ml-auto text-xs font-bold px-2.5 sm:px-3 py-1 rounded-full border border-stone-200/90 bg-white flex items-center gap-1 font-mono shadow-2xs">
                 <span className={activeCrop.yesterdayDiff >= 0 ? 'text-[#1b4332]' : 'text-rose-600'}>
                   {activeCrop.yesterdayDiff >= 0 ? `+ ₹${activeCrop.yesterdayDiff}` : `- ₹${Math.abs(activeCrop.yesterdayDiff)}`}
                 </span>
-                <span className="text-stone-500 font-normal">vs. yesterday</span> ↗
+                <span className="text-stone-500 font-normal">{t.vsYesterday || 'vs. yesterday'}</span> ↗
               </span>
             </div>
 
@@ -392,7 +395,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             <div className="grid grid-cols-2 gap-3 mb-4">
               <div className="bg-stone-50/80 p-3 rounded-xl border border-stone-200/70">
                 <span className="text-[11px] text-stone-500 font-medium block mb-1">
-                  Government MSP
+                  {t.mspGovRate || 'Government MSP'}
                 </span>
                 <span className="text-base font-extrabold text-stone-900 font-mono">
                   ₹{activeCrop.msp.toLocaleString('en-IN')}
@@ -401,7 +404,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
 
               <div className="bg-stone-50/80 p-3 rounded-xl border border-stone-200/70">
                 <span className="text-[11px] text-stone-500 font-medium block mb-1">
-                  Middleman Commission (8–15%)
+                  {t.middlemanSavings || 'Middleman Commission (8–15%)'}
                 </span>
                 <span className="text-base font-extrabold text-stone-900 font-mono">
                   + ₹{activeCrop.middlemanCommission}
@@ -439,7 +442,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             <div className="bg-[#f0fdf4] border border-emerald-200/80 text-emerald-900 text-xs font-semibold p-3 rounded-xl flex items-center justify-between gap-2 mt-3">
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                <span>This rate is higher than the minimum support baseline.</span>
+                <span>{t.rateComparisonBetter || 'This rate is higher than the minimum support baseline.'}</span>
               </div>
             </div>
           </div>
@@ -452,12 +455,12 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             {isPlayingAudio ? (
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                Playing Vernacular Voice Advisory...
+                {t.playingVoiceAdvisory || 'Playing Vernacular Voice Advisory...'}
               </span>
             ) : (
               <>
                 <Play className="w-4 h-4 fill-current text-emerald-400" />
-                <span>Listen Rate Update</span>
+                <span>{t.listenRateUpdate || t.listenAudioBtn || 'Listen Rate Update'}</span>
                 <span className="flex items-center gap-1 ml-1 opacity-80">
                   <span className="w-0.5 h-3 bg-emerald-400 wave-bar-1" />
                   <span className="w-0.5 h-4 bg-emerald-400 wave-bar-2" />
@@ -478,10 +481,10 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
               </div>
               <div>
                 <h3 className="text-base font-extrabold text-stone-900 font-display leading-tight">
-                  Sell Directly
+                  {t.step3SellDirect || 'Sell Directly'}
                 </h3>
                 <p className="text-xs text-stone-500 font-normal">
-                  Connect with verified corporate buyers (ITC, Adani, Cargill) and get guaranteed payment.
+                  {t.sellDirectDesc || 'Connect with verified corporate buyers (ITC, Adani, Cargill) and get guaranteed payment.'}
                 </p>
               </div>
             </div>
@@ -495,14 +498,14 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
               }}
               className="w-full bg-[#1b4332] hover:bg-[#143527] text-white font-extrabold text-sm py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all hover:shadow-lg active:scale-[0.99] mb-6"
             >
-              <span>List My Crop Now</span>
+              <span>{t.listCropBtn || 'List My Crop Now'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
             {/* More Support Section */}
             <div className="space-y-3 pt-2">
               <span className="text-[11px] font-extrabold text-stone-400 uppercase tracking-wider block font-mono">
-                More Support
+                {t.moreSupport || 'More Support'}
               </span>
 
               {/* Kisan Voice AI Advisory */}
@@ -516,10 +519,10 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
                   </div>
                   <div>
                     <h4 className="text-xs font-extrabold text-stone-900 group-hover:text-[#1b4332] transition-colors">
-                      Kisan Voice AI Advisory
+                      {t.aiAdvisory || 'Kisan Voice AI Advisory'}
                     </h4>
                     <p className="text-[11px] text-stone-500">
-                      Get price advice in your language
+                      {t.supportDesc || 'Get price advice in your language'}
                     </p>
                   </div>
                 </div>
@@ -559,7 +562,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             New
           </span>
           <span className="font-medium text-stone-800">
-            Detailed Technical Analysis and AI Models (Prophet/ARIMA) are now live.
+            {t.techModeActive || 'Detailed Technical Analysis and AI Models (Prophet/ARIMA) are now live.'}
           </span>
         </div>
 
@@ -567,7 +570,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
           onClick={() => setShowBulletinModal(true)}
           className="text-xs font-bold text-[#1b4332] hover:underline cursor-pointer flex items-center gap-1 font-sans flex-shrink-0"
         >
-          View Bulletin Points <ArrowRight className="w-3.5 h-3.5" />
+          {t.viewBulletinPoints || 'View Bulletin Points'} <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
@@ -593,9 +596,9 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             </div>
             <button
               onClick={() => setShowCallCenterModal(false)}
-              className="w-full py-2.5 bg-stone-900 text-white rounded-xl font-bold text-xs hover:bg-stone-800 transition-colors cursor-pointer"
+              className="w-full py-2.5 bg-stone-900 text-[#ffffff] rounded-xl font-bold text-xs hover:bg-stone-800 transition-colors cursor-pointer"
             >
-              Close
+              {t.close || 'Close'}
             </button>
           </div>
         </div>
@@ -608,7 +611,9 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
               <div className="flex items-center gap-2">
                 <Megaphone className="w-5 h-5 text-emerald-600" />
-                <h3 className="text-lg font-extrabold text-stone-900 font-display">APMC Market Bulletin</h3>
+                <h3 className="text-lg font-extrabold text-stone-900 font-display">
+                  {t.apmcMarketBulletin || 'APMC Market Bulletin'}
+                </h3>
               </div>
               <button onClick={() => setShowBulletinModal(false)} className="text-stone-400 hover:text-stone-700 font-bold text-sm">✕</button>
             </div>
@@ -630,7 +635,7 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
               onClick={() => setShowBulletinModal(false)}
               className="w-full py-2.5 bg-[#1b4332] text-white rounded-xl font-bold text-xs hover:bg-[#143527] transition-colors cursor-pointer"
             >
-              Done
+              {t.doneBtn || 'Done'}
             </button>
           </div>
         </div>
@@ -641,7 +646,9 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
         <div className="fixed inset-0 z-50 bg-stone-950/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-stone-200 animate-scaleUp space-y-4">
             <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-              <h3 className="text-lg font-extrabold text-stone-900 font-display">All APMC Mandi Crops</h3>
+              <h3 className="text-lg font-extrabold text-stone-900 font-display">
+                {t.allApmcMandiCrops || 'All APMC Mandi Crops'}
+              </h3>
               <button onClick={() => setShowAllCropsModal(false)} className="text-stone-400 hover:text-stone-700 font-bold text-sm">✕</button>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-h-[60vh] overflow-y-auto">
