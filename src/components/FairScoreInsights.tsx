@@ -373,14 +373,14 @@ export const FairScoreInsights: React.FC<FairScoreInsightsProps> = ({
             </div>
 
             {/* Price Row */}
-            <div className="flex items-baseline gap-3 mb-4">
-              <span className="text-4xl font-black text-stone-950 font-display tracking-tight">
+            <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-4">
+              <span className="text-3xl sm:text-4xl font-black text-stone-950 font-display tracking-tight">
                 ₹{activeCrop.modalPrice.toLocaleString('en-IN')}
               </span>
               <span className="text-xs text-stone-500 font-bold font-mono">
                 / Quintal (100 kg)
               </span>
-              <span className="ml-auto text-xs font-bold px-3 py-1 rounded-full border border-stone-200/90 bg-white flex items-center gap-1 font-mono shadow-2xs">
+              <span className="sm:ml-auto text-xs font-bold px-2.5 sm:px-3 py-1 rounded-full border border-stone-200/90 bg-white flex items-center gap-1 font-mono shadow-2xs">
                 <span className={activeCrop.yesterdayDiff >= 0 ? 'text-[#1b4332]' : 'text-rose-600'}>
                   {activeCrop.yesterdayDiff >= 0 ? `+ ₹${activeCrop.yesterdayDiff}` : `- ₹${Math.abs(activeCrop.yesterdayDiff)}`}
                 </span>

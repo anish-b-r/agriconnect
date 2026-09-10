@@ -328,7 +328,7 @@ export const PriceDiscoveryEngine: React.FC<PriceDiscoveryEngineProps> = ({
                 </div>
 
                 {/* Benchmark Breakdown Grid */}
-                <div className="grid grid-cols-3 gap-3 p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 text-xs font-mono">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 p-3.5 bg-stone-50 rounded-xl border border-stone-200/80 text-xs font-mono">
                   <div>
                     <span className="text-stone-500 block text-[10px]">Statutory MSP</span>
                     <strong className="text-stone-900 text-sm">₹{fairAssessment.mspStatutory}</strong>
