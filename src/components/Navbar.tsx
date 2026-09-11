@@ -859,19 +859,38 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-            {/* User Profile / Auth */}
+            {/* User Profile & Role Badge / Auth */}
             {currentUser ? (
-              <div className="flex items-center gap-1 pl-1 border-l border-emerald-900/50 flex-shrink-0">
+              <div className="flex items-center gap-1.5 pl-1.5 border-l border-emerald-900/50 flex-shrink-0">
+                {/* Role Badge */}
+                <div
+                  onClick={() => onOpenAuth?.('login')}
+                  className={`cursor-pointer inline-flex items-center gap-1 px-2 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider border shadow-xs transition-all ${
+                    currentUser.role === 'buyer'
+                      ? 'bg-sky-950/90 text-sky-300 border-sky-500/40 hover:bg-sky-900/90'
+                      : currentUser.role === 'admin'
+                      ? 'bg-amber-950/90 text-amber-300 border-amber-500/40 hover:bg-amber-900/90'
+                      : 'bg-emerald-950/90 text-emerald-300 border-emerald-500/40 hover:bg-emerald-900/90'
+                  }`}
+                  title={`Current Role: ${currentUser.role}. Click to switch user profile.`}
+                >
+                  <span className="text-[11px]">
+                    {currentUser.role === 'buyer' ? '🛒' : currentUser.role === 'admin' ? '🛡️' : '🌾'}
+                  </span>
+                  <span className="font-extrabold">{currentUser.role || 'Farmer'}</span>
+                </div>
+
+                {/* Profile Button */}
                 <button
                   onClick={() => onOpenAuth?.('login')}
-                  className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-stone-200 border border-emerald-500/30 text-xs transition-colors cursor-pointer flex-shrink-0"
+                  className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-stone-200 border border-emerald-500/30 text-xs transition-colors cursor-pointer flex-shrink-0"
                   title={`Logged in as ${currentUser.name} (${currentUser.role}). Click to switch profile.`}
                   id="navbar-profile-btn"
                 >
-                  <div className="w-5 h-5 rounded-full bg-emerald-500 text-stone-950 font-black text-[10px] flex items-center justify-center flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-emerald-500 text-stone-950 font-black text-[10px] flex items-center justify-center flex-shrink-0 shadow-xs">
                     {currentUser.name.charAt(0)}
                   </div>
-                  <span className="hidden md:inline font-bold max-w-[100px] truncate">
+                  <span className="hidden md:inline font-bold max-w-[90px] truncate">
                     {currentUser.name.split(' ')[0]}
                   </span>
                 </button>

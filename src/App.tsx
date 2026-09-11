@@ -394,6 +394,14 @@ export default function App() {
     }
   };
 
+  const handleBuyerPurchaseListing = (listing: FarmerBatchListing, purchaseQty: number, agreedPrice: number) => {
+    setListings((prev) =>
+      prev.map((item) =>
+        item.id === listing.id ? { ...item, status: 'Contracted' } : item
+      )
+    );
+  };
+
   const handleContractCreated = (contract: MarketLinkageContract) => {
     setContracts([contract, ...contracts]);
 
@@ -403,7 +411,7 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         listing_id: contract.batchId || 'list-01',
-        buyer_id: 'usr-b-01',
+        buyer_id: currentUser?.id || 'usr-b-01',
         agreed_price: Number((contract.agreedPricePerQtl / 100).toFixed(2)),
         quantity: (contract.quantityQuintals || 50) * 100,
         status: contract.escrowStatus === 'Escrow Funded (100%)' ? 'escrow_locked' : 'dispatched',
@@ -497,6 +505,10 @@ export default function App() {
           initialCropId={prefillCrop?.id}
           fairFloorPrice={targetFairPrice}
           onContractCreated={handleContractCreated}
+          farmerListings={listings}
+          currentUser={currentUser}
+          onBuyListing={handleBuyerPurchaseListing}
+          onOpenAuth={handleOpenAuth}
         />
       )}
 
